@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Role } from './entities/role.entity';
-import { ILike, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 import { Menu } from '../menus/entities/menu.entity';
 
 @Injectable()
@@ -13,17 +13,43 @@ export class RolesService {
   ) { }
 
   async findAll(role) {
-    const { name = null } = role
+    const { name = "" } = role
     // console.log(role);
 
     const roleData = await this.roleRep.find({
       where: {
         name: ILike(`%${name}%`)
       },
-      relations: ["menus"]
     })
     // console.log(roleData);
     return roleData
+  }
+
+  // 查角色菜单
+  async findRoleMenu(roleIds) {
+    const roleMenu = await this.roleRep.find({
+      where: {
+        id: In(roleIds)
+      },
+      relations: ["menus"]
+    })
+    let menuList = []
+    roleMenu.forEach((item) => {
+      menuList = menuList.concat(item.menus)
+    })
+    return menuList
+  }
+
+  // 设置角色权限
+  async saveRolePermission(roleReq) {
+    console.log(roleReq);
+    const { roleId, permissionIds } = roleReq
+    // const { roleId, menuIds } = role
+    // const saveRole = await this.roleRep.save({
+    //   id: roleId,
+    //   menus: menuIds.map((id) => Object.assign(new Menu(), { id }))
+    // })
+    // return saveRole
   }
 
   async createRole(role) {
@@ -47,5 +73,5 @@ export class RolesService {
     const deleteRole = await this.roleRep.delete(id)
     return deleteRole
   }
-  
+
 }

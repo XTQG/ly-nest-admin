@@ -1,8 +1,8 @@
 import { BaseEntity } from "src/common/entity/BaseEntity";
-import { Role } from "src/modules/roles/entities/role.entity";
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, Tree, TreeChildren, TreeParent } from "typeorm";
 import { MenuMeta } from "./menu-meta.entity";
-import { Permission } from "./permission.entity";
+import { Role } from "../../roles/entities/role.entity";
+import { Permission } from "../../permission/entities/permission.entity";
 
 
 @Tree("closure-table")
@@ -17,6 +17,11 @@ export class Menu extends BaseEntity {
     comment: '路由名称',
   })
   name: string;
+
+  @Column({
+    comment: '排序',
+  })
+  sort: number;
 
   @Column({
     nullable: true,
@@ -37,13 +42,14 @@ export class Menu extends BaseEntity {
   })
   desc: string;
 
-  @Column({
-    type: "char",
-    default: 0,
-    name: "is_hidden",
-    comment: '是否隐藏,1是0否，默认0',
-  })
-  isHidden: number;
+  // @Column({
+  //   type: "char",
+  //   default: 0,
+  //   name: "is_hidden",
+  //   comment: '是否隐藏,1是0否，默认0',
+  //   transformer: { from: (value) => value - 0, to: (value: string) => value },
+  // })
+  // isHidden: number;
 
   @Column({
     nullable: true,

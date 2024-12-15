@@ -1,8 +1,8 @@
 import { BaseEntity } from "src/common/entity/BaseEntity";
-import { Menu } from "src/modules/menus/entities/menu.entity";
-import { Permission } from "src/modules/menus/entities/permission.entity";
-import { User } from "src/modules/user/entities/user.entity";
+import { Menu } from "src/modules/permissionAdm/menus/entities/menu.entity";
 import { Column, Entity, JoinTable, ManyToMany } from "typeorm";
+import { User } from "../../user/entities/user.entity";
+import { Permission } from "../../permission/entities/permission.entity";
 
 @Entity()
 export class Role extends BaseEntity {

@@ -1,29 +1,36 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from "./modules/user/users.module";
 import { AuthModule } from './modules/auth/auth.module';
 
-import { Role } from './modules/roles/entities/role.entity';
-
-import { User } from './modules/user/entities/user.entity';
-
-import { Menu } from './modules/menus/entities/menu.entity';
+import { Menu } from './modules/permissionAdm/menus/entities/menu.entity';
 
 // 引入typeorm模块
 import { TypeOrmModule } from '@nestjs/typeorm';
 // 引入配置模块
 import { ConfigService, ConfigModule } from '@nestjs/config';
-import { MenusModule } from './modules/menus/menus.module';
-import { MenuMeta } from './modules/menus/entities/menu-meta.entity';
-import { RolesModule } from './modules/roles/roles.module';
-import { Permission } from './modules/menus/entities/permission.entity';
+import { MenusModule } from './modules/permissionAdm/menus/menus.module';
+import { MenuMeta } from './modules/permissionAdm/menus/entities/menu-meta.entity';
+import { Permission } from './modules/permissionAdm/permission/entities/permission.entity';
+import { Dictionary } from './modules/dictionary/entities/dictionary.entity';
+import { DictionaryOptions } from './modules/dictionary/entities/dictionary-options.entity';
+import { DictionaryModule } from './modules/dictionary/dictionary.module';
+import { ClsModule } from 'nestjs-cls';
+import { UsersModule } from './modules/permissionAdm/user/users.module';
+import { RolesModule } from './modules/permissionAdm/roles/roles.module';
+import { User } from './modules/permissionAdm/user/entities/user.entity';
+import { Role } from './modules/permissionAdm/roles/entities/role.entity';
+import { PermissionModule } from './modules/permissionAdm/permission/permission.module';
 
 // 当前环境
 const NODE_DEV = process.env.NODE_ENV;
 
 @Module({
   imports: [
+    ClsModule.forRoot({
+      global: true,
+      middleware: { mount: true },
+    }),
     ConfigModule.forRoot({
       envFilePath: `./config/.env.${NODE_DEV}`,
       isGlobal: true
@@ -34,7 +41,7 @@ const NODE_DEV = process.env.NODE_ENV;
       useFactory: async (configService: ConfigService) => {
         return {
           type: 'mysql', // 数据库类型
-          entities: [Role, User, Menu, MenuMeta, Permission],  // 数据表实体
+          entities: [Role, User, Menu, MenuMeta, Permission, Dictionary, DictionaryOptions],  // 数据表实体
           host: configService.get('DB_HOST', 'localhost'), // 主机，默认为localhost
           port: configService.get<number>('DB_PORT', 3306), // 端口号
           username: configService.get('DB_USER', 'root'),   // 用户名
@@ -50,7 +57,8 @@ const NODE_DEV = process.env.NODE_ENV;
     AuthModule,
     MenusModule,
     RolesModule,
-
+    DictionaryModule,
+    PermissionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

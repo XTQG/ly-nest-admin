@@ -1,45 +1,42 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { MenusService } from './menus.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
-import { QueryMenuDto } from './dto/query-menu.dto';
+import { PermissionMeta } from 'src/common/metaData/permissionMetaData.ts';
+import { menusAdm, menusMeta } from 'src/common/metaData/permissionMetaData.ts/permissionAdm/menusAdm';
 
+@PermissionMeta(menusAdm.value)
 @Controller('menus')
 export class MenusController {
   constructor(private readonly menusService: MenusService) { }
 
+  @PermissionMeta(menusMeta.saveMenu.value)
   @Post("save")
   createMenu(@Body() menuData: CreateMenuDto) {
     return this.menusService.createMenu(menuData)
   }
 
+  @PermissionMeta(menusMeta.updateMenu.value)
   @Post("update")
   updateMenu(@Body() menu) {
     return this.menusService.updateMenu(menu)
   }
 
-  @Post("save-permission")
-  createPermission(@Body() permission) {
-    return this.menusService.createPermission(permission)
-  }
-
+  @PermissionMeta(menusMeta.menuPermission.value)
   @Get("menu-permission")
   findMenuPermissionList(@Query("id") id: string) {
     return this.menusService.findMenuPermissionList(id)
   }
 
-  @Get()
-  findAll(@Query() menu: QueryMenuDto) {
-    return this.menusService.findAll(menu)
+  // 查询菜单
+  @PermissionMeta(menusMeta.queryMenu.value)
+  @Get("list")
+  queryMenu(@Query() menuReq) {
+    return this.menusService.queryMenu(menuReq)
   }
 
-  @Get("tree")
-  treeFind() {
-    return this.menusService.treeFind()
-  }
-
+  @PermissionMeta(menusMeta.removeMenu.value)
   @Get("remove")
   removeMenu(@Query("id") id: string) {
-    console.log(id);
     return this.menusService.removeMenu(id)
   }
 

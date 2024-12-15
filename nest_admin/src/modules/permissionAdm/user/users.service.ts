@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Role } from '../roles/entities/role.entity';
+import { ClsService } from 'nestjs-cls';
 
 @Injectable()
 export class UsersService {
@@ -10,10 +11,14 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly clsService: ClsService
   ) { }
 
-  async findAll() {
+  async queryUser(user) {
     const users = await this.userRepository.find({
+      where: {
+        account: Like(`%${user.account}%`),
+      },
       relations: ['roles'],
     });
     return users;
@@ -31,13 +36,24 @@ export class UsersService {
   }
 
   // 获取用户菜单
-  async findUserRoleMenus(userId: string) {
-    return await this.userRepository.findOne({
+  async findUserRoleMenus() {
+    const userId = this.clsService.get('userId');
+    const userAndMenu = await this.userRepository.findOne({
       where: {
         id: userId
       },
       relations: ['roles.menus.meta'],
     })
+
+    const menuMap = new Map()
+    // 去重
+    userAndMenu.roles.forEach((role) => {
+      role.menus.forEach((menu) => {
+        menuMap.set(menu.id, menu)
+      })
+    })
+    // 转化成数组
+    return Array.from(menuMap.values())
   }
 
   async createUser(user) {

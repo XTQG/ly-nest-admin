@@ -1,7 +1,7 @@
 import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from "@node-rs/bcrypt";
 import { BaseEntity } from "src/common/entity/BaseEntity";
-import { Role } from "src/modules/roles/entities/role.entity";
+import { Role } from "../../roles/entities/role.entity";
 
 @Entity('user')
 export class User extends BaseEntity {

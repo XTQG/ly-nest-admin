@@ -6,7 +6,6 @@ import { Public } from 'src/common/decorator/publicDecorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
-
   @Public()
   // 登录
   @Post("login")
@@ -14,14 +13,10 @@ export class AuthController {
     return this.authService.login(user);
   }
 
+  // 刷新token
   @Post("refreshToken")
   async refreshToken(@Body() token) {
     return this.authService.refreshToken(token);
-  }
-
-  @Get("userMenus")
-  userMenus(@Query() user) {
-    return this.authService.userMenus(user);
   }
 
 }

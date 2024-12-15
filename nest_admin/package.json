@@ -37,6 +37,7 @@
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.13",
     "mysql2": "^3.11.4",
+    "nestjs-cls": "^4.5.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",

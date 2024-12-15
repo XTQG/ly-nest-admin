@@ -3,10 +3,9 @@ import { CreateMenuDto } from './dto/create-menu.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Menu } from './entities/menu.entity';
 import { Repository } from 'typeorm';
-import { QueryMenuDto } from './dto/query-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
 import { MenuMeta } from './entities/menu-meta.entity';
-import { Permission } from './entities/permission.entity';
+import { builderTree } from 'src/common/utils/comon';
 @Injectable()
 export class MenusService {
   constructor(
@@ -14,21 +13,11 @@ export class MenusService {
     private readonly menuRep: Repository<Menu>,
     @InjectRepository(MenuMeta)
     private readonly menuMetaRep: Repository<MenuMeta>,
-    @InjectRepository(Permission)
-    private readonly permissionRep: Repository<Permission>,
   ) { }
 
-  async findAll(menu: QueryMenuDto) {
+  async findAll() {
     try {
-      const { title = '', ids = null } = menu
-      const createBuilder = await this.menuRep.createQueryBuilder("menu")
-        .leftJoinAndSelect("menu.meta", "meta")
-        .where("meta.title LIKE :title", { title: `%${title}%` })
-
-      if (ids && ids.length > 0) {
-        createBuilder.andWhere("menu.id IN (:ids)", { ids: ids })
-      }
-      const menuList = await createBuilder.getMany()
+      const menuList = await this.menuRep.find()
       // console.log(menuList);
       return menuList
     } catch (error) {
@@ -39,25 +28,64 @@ export class MenusService {
     }
   }
 
-  async findMenuParent(id: string) {
-    const treeRep = this.menuRep as any
-    const ancestors = await treeRep.findAncestors(id, {
-      relations: ["meta"],
+  // 根据菜单数据构建菜单树
+  async builderMenuTree(menuList) {
+    const menuAll = await this.findAll()
+    const menuAllMap = {}
+    menuAll.forEach((menu) => {
+      menuAllMap[menu.id] = menu
     })
-    return ancestors
+    const parentList = []
+    menuList.forEach((menu) => {
+      const parent = menuAllMap[menu.parentId]
+      if (parent) {
+        parentList.push(parent)
+      }
+    })
+    const menuMap = new Map()
+    parentList.concat(menuList).forEach((menu) => {
+      menuMap.set(menu.id, menu)
+    })
+    const menuResult = Array.from(menuMap)
+    return builderTree(menuResult)
   }
 
-  // 树结构查询
+  // 查找菜单
+  async queryMenu(menuReq) {
+    try {
+      const { title = '', isAllMenus = false } = menuReq
+      const menuList = await this.menuRep.createQueryBuilder("menu")
+        .leftJoinAndSelect("menu.meta", "meta")
+        .where("meta.title LIKE :title", { title: `%${title}%` }).getMany()
+      let allMenus = null
+      // 查找所有菜单
+      if (isAllMenus) {
+        allMenus = await this.findAll()
+      }
+      return {
+        menuList, allMenus
+      }
+      // 返回树结构
+      // return this.builderMenuTree(queryMenu)
+    } catch {
+      throw new InternalServerErrorException({
+        msg: "获取菜单失败",
+      })
+    }
+  }
+
+  // 树查询所有菜单
   async treeFind() {
     const treeRep = this.menuRep as any
     const rootMenus = await treeRep.findTrees(
       {
         relations: ["meta"]
-      }
+      },
     )
     return rootMenus
   }
 
+  // 查找单个菜单
   async findOne(id: string) {
     const menu = await this.menuRep.findOne({
       where: {
@@ -80,6 +108,7 @@ export class MenusService {
     }
   }
 
+  // 新增菜单
   async createMenu(menuData: CreateMenuDto) {
 
     if (menuData.parentId == "") {
@@ -100,23 +129,22 @@ export class MenusService {
     return saveMenu
   }
 
-  async createPermission(permission) {
-    const newPermission = this.permissionRep.create(permission)
-    const savePermission = await this.permissionRep.save(newPermission)
-    return savePermission
-  }
 
-  async findMenuPermissionList(id: string) {
+
+  // 查找某个菜单的权限列表
+  async findMenuPermissionList(menuId: string) {
     const menuPermission = await this.menuRep.findOne({
       where: {
-        id: id
+        id: menuId
       },
       relations: ["permission"]
     })
     return menuPermission.permission
   }
 
+  // 更新菜单
   async updateMenu(menu: UpdateMenuDto) {
+    // console.log(menu);
     const parentId = menu?.parentId
     const menuData = await this.findOne(menu.id)
 
@@ -139,6 +167,7 @@ export class MenusService {
     return menu
   }
 
+  // 删除菜单
   async removeMenu(id: string) {
 
     if (!id) {
