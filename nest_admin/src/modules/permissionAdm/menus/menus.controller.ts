@@ -27,6 +27,11 @@ export class MenusController {
     return this.menusService.findMenuPermissionList(id)
   }
 
+  @Get("all")
+  findAll() {
+    return this.menusService.findAll()
+  }
+
   // 查询菜单
   @PermissionMeta(menusMeta.queryMenu.value)
   @Get("list")

@@ -14,7 +14,7 @@ export class UsersController {
     return this.userService.queryUser(user);
   }
 
-  @Get("userMenus")
+  @Get("menus")
   findUserRoleMenus() {
     return this.userService.findUserRoleMenus();
   }

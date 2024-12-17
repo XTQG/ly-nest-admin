@@ -21,6 +21,12 @@ export class RolesController {
     return await this.rolesService.saveRolePermission(roleReq)
   }
 
+  // 获取角色权限
+  @Get("permission")
+  findRolePermission(@Query("roleId") roleId) {
+    return this.rolesService.findRolePermission(roleId)
+  }
+
   // 查角色菜单
   @Get("menu")
   findRoleMenu(@Query("roleIds") roleIds) {

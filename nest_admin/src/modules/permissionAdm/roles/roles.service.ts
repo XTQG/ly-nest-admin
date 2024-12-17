@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Role } from './entities/role.entity';
 import { ILike, In, Repository } from 'typeorm';
 import { Menu } from '../menus/entities/menu.entity';
+import { Permission } from '../permission/entities/permission.entity';
 
 @Injectable()
 export class RolesService {
@@ -42,14 +43,22 @@ export class RolesService {
 
   // 设置角色权限
   async saveRolePermission(roleReq) {
-    console.log(roleReq);
     const { roleId, permissionIds } = roleReq
-    // const { roleId, menuIds } = role
-    // const saveRole = await this.roleRep.save({
-    //   id: roleId,
-    //   menus: menuIds.map((id) => Object.assign(new Menu(), { id }))
-    // })
-    // return saveRole
+    const saveRole = await this.roleRep.save({
+      id: roleId,
+      permission: permissionIds.map((id) => Object.assign(new Permission(), { id }))
+    })
+    return this.findRolePermission(roleId)
+  }
+
+  // 获取角色权限
+  findRolePermission(roleId) {
+    return this.roleRep.findOne({
+      where: {
+        id: roleId
+      },
+      relations: ["permission"]
+    })
   }
 
   async createRole(role) {

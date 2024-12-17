@@ -56,6 +56,16 @@ export class UsersService {
     return Array.from(menuMap.values())
   }
 
+  // 获取用户权限
+  findUserPermissions(userId: string) {
+    return this.userRepository.findOne({
+      where: {
+        id: userId
+      },
+      relations: ['roles.permission']
+    })
+  }
+
   async createUser(user) {
     const newUser = await this.userRepository.create(user);
     return await this.userRepository.save(newUser);
