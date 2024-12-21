@@ -35,7 +35,13 @@ export class PermissionGuard implements CanActivate {
     // console.log(perMeta);
 
     const userId = this.clsService.get('userId')
+
     const userPermission = await this.userService.findUserPermissions(userId)
+
+    if (!userPermission) {
+      throw new ForbiddenException('用户不存在,请重新登录')
+    }
+
 
     let permission = []
     userPermission.roles.forEach((role) => {
