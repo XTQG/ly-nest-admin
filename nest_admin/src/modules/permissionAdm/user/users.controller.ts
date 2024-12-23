@@ -9,6 +9,12 @@ export class UsersController {
   constructor(private readonly userService: UsersService) { }
 
   @PermissionMeta(usersMeta.queryUser.value)
+  @Get("page")
+  queryUserPage(@Query() user) {
+    return this.userService.queryUser(user);
+  }
+
+  @PermissionMeta(usersMeta.queryUser.value)
   @Get("list")
   queryUser(@Query() user) {
     return this.userService.queryUser(user);

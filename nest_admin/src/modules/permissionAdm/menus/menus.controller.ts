@@ -21,11 +21,11 @@ export class MenusController {
     return this.menusService.updateMenu(menu)
   }
 
-  @PermissionMeta(menusMeta.menuPermission.value)
-  @Get("menu-permission")
-  findMenuPermissionList(@Query("id") id: string) {
-    return this.menusService.findMenuPermissionList(id)
-  }
+  // @PermissionMeta(menusMeta.menuPermission.value)
+  // @Get("menu-permission")
+  // findMenuPermissionList(@Query("id") id: string) {
+  //   return this.menusService.findMenuPermissionList(id)
+  // }
 
   @Get("all")
   findAll() {

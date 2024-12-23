@@ -89,7 +89,7 @@ CREATE TABLE `menu` (
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`name`,`path`,`component`,`update_time`,`create_user`,`update_user`,`is_deleted`,`desc`,`redirect`,`createTime`,`parent_id`,`meta_id`,`sort`) values (1,'Dashbord','/dashboard','#','2024-12-17 00:06:30',NULL,NULL,'0',NULL,'/dashboard/analysis','2024-12-17 00:06:30.000000',NULL,1,1),(2,'Analysis','analysis','/dashboard/Analysis','2024-12-07 23:31:56',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:31:56.000000',1,2,1),(7,'Workplace','workplace','/dashboard/Workplace','2024-12-07 23:32:00',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:32:00.000000',1,7,2),(8,'Authorization','/authorization','#','2024-12-17 21:30:57',NULL,NULL,'0',NULL,'/authorization/department','2024-12-17 21:30:57.000000',NULL,8,2),(9,'Department','department','/authorization/Department','2024-12-07 23:32:09',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:32:09.000000',8,9,1),(10,'User','user','/authorization/user/User','2024-12-07 23:32:13',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:32:13.000000',8,10,2),(11,'Menu','menu','/authorization/menu/Menu','2024-12-07 23:01:37',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:37.000000',8,11,3),(12,'Role','role','/authorization/role/Role','2024-12-07 23:01:40',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:40.000000',8,12,4),(13,'System','/system','#','2024-12-07 23:31:31',NULL,NULL,'0',NULL,'/system/log','2024-12-07 23:31:31.000000',NULL,13,3),(14,'Log','log','/system/Log','2024-12-07 23:01:50',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:50.000000',13,14,1),(15,'Public ','public','/system/Public','2024-12-07 23:01:53',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:53.000000',13,15,2),(16,'Config ','config','/system/Config','2024-12-07 23:01:56',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:56.000000',13,16,3),(17,'SystemMonitor','/system-monitor','#','2024-12-17 00:06:25',NULL,NULL,'0',NULL,'/system-monitor/online-user','2024-12-17 00:06:25.000000',NULL,17,4),(18,'OnlineUser','online-user','/systemMonitor/OnlineUser','2024-12-07 23:02:07',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:02:07.000000',17,18,1),(19,'LoginLog ','login-log','/systemMonitor/LoginLog','2024-12-07 23:02:10',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:02:10.000000',17,19,2),(20,'ServiceMonitor ','service-monitor','/systemMonitor/ServiceMonitor','2024-12-07 23:02:13',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:02:13.000000',17,20,3),(55,'test1','/test1','#','2024-12-17 21:24:24',NULL,NULL,'0',NULL,NULL,'2024-12-17 21:24:24.000000',NULL,74,5),(56,'test1-1','test1-1','','2024-12-08 21:22:21',NULL,NULL,'0',NULL,NULL,'2024-12-08 21:22:21.000000',55,75,1),(57,'test1-1-1','test1-1-1','/system/dictionary/Dictionary','2024-12-07 23:02:30',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:02:30.000000',56,76,1),(60,'test1-1-2','test1-1-2','/authorization/menu/Menu','2024-12-07 23:02:33',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:02:33.000000',56,79,2),(61,'Permission','permission','/authorization/permission/Permission','2024-12-07 23:01:46',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:46.000000',8,80,5),(62,'Dictionary','dictionary',NULL,'2024-12-08 22:28:41',NULL,NULL,'0',NULL,NULL,'2024-12-08 22:28:41.000000',13,82,4),(68,'DictionaryConfig','dictionaryConfig','/system/dictionary/dictionaryConfig/DictionaryConfig','2024-12-08 22:25:57',NULL,NULL,'0',NULL,NULL,'2024-12-08 22:25:57.000000',62,88,1),(70,'DictionaryOptions','dictionaryOptions','/system/dictionary/dictionaryOptions/DictionaryOptions',NULL,NULL,NULL,'0',NULL,NULL,'2024-12-08 22:22:40.388111',62,90,1);
+insert  into `menu`(`id`,`name`,`path`,`component`,`update_time`,`create_user`,`update_user`,`is_deleted`,`desc`,`redirect`,`createTime`,`parent_id`,`meta_id`,`sort`) values (1,'Dashbord','/dashboard','#','2024-12-17 00:06:30',NULL,NULL,'0',NULL,'/dashboard/analysis','2024-12-17 00:06:30.000000',NULL,1,1),(2,'Analysis','analysis','/dashboard/Analysis','2024-12-07 23:31:56',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:31:56.000000',1,2,1),(7,'Workplace','workplace','/dashboard/Workplace','2024-12-07 23:32:00',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:32:00.000000',1,7,2),(8,'Authorization','/authorization','#','2024-12-17 21:30:57',NULL,NULL,'0',NULL,'/authorization/department','2024-12-17 21:30:57.000000',NULL,8,2),(9,'Department','department','/authorization/Department','2024-12-07 23:32:09',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:32:09.000000',8,9,1),(10,'User','user','/authorization/user/User','2024-12-07 23:32:13',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:32:13.000000',8,10,2),(11,'Menu','menu','/authorization/menu/Menu','2024-12-07 23:01:37',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:37.000000',8,11,3),(12,'Role','role','/authorization/role/Role','2024-12-07 23:01:40',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:40.000000',8,12,4),(13,'System','/system','#','2024-12-07 23:31:31',NULL,NULL,'0',NULL,'/system/log','2024-12-07 23:31:31.000000',NULL,13,3),(14,'Log','log','/system/Log','2024-12-07 23:01:50',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:50.000000',13,14,1),(15,'Public ','public','/system/Public','2024-12-07 23:01:53',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:53.000000',13,15,2),(16,'Config ','config','/system/Config','2024-12-07 23:01:56',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:56.000000',13,16,3),(17,'SystemMonitor','/system-monitor','#','2024-12-17 00:06:25',NULL,NULL,'0',NULL,'/system-monitor/online-user','2024-12-17 00:06:25.000000',NULL,17,4),(18,'OnlineUser','online-user','/systemMonitor/OnlineUser','2024-12-07 23:02:07',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:02:07.000000',17,18,1),(19,'LoginLog ','login-log','/systemMonitor/LoginLog','2024-12-07 23:02:10',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:02:10.000000',17,19,2),(20,'ServiceMonitor ','service-monitor','/systemMonitor/ServiceMonitor','2024-12-07 23:02:13',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:02:13.000000',17,20,3),(61,'Permission','permission','/authorization/permission/Permission','2024-12-07 23:01:46',NULL,NULL,'0',NULL,NULL,'2024-12-07 23:01:46.000000',8,80,5),(62,'Dictionary','dictionary',NULL,'2024-12-08 22:28:41',NULL,NULL,'0',NULL,NULL,'2024-12-08 22:28:41.000000',13,82,4),(68,'DictionaryConfig','dictionaryConfig','/system/dictionary/dictionaryConfig/DictionaryConfig','2024-12-08 22:25:57',NULL,NULL,'0',NULL,NULL,'2024-12-08 22:25:57.000000',62,88,1),(70,'DictionaryOptions','dictionaryOptions','/system/dictionary/dictionaryOptions/DictionaryOptions',NULL,NULL,NULL,'0',NULL,NULL,'2024-12-08 22:22:40.388111',62,90,1);
 
 /*Table structure for table `menu_closure` */
 
@@ -107,7 +107,7 @@ CREATE TABLE `menu_closure` (
 
 /*Data for the table `menu_closure` */
 
-insert  into `menu_closure`(`id_ancestor`,`id_descendant`) values (1,1),(1,2),(1,7),(2,2),(7,7),(8,8),(8,9),(8,10),(8,11),(8,12),(8,61),(9,9),(10,10),(11,11),(12,12),(13,13),(13,14),(13,15),(13,16),(13,62),(13,68),(13,70),(14,14),(15,15),(16,16),(17,17),(17,18),(17,19),(17,20),(18,18),(19,19),(20,20),(30,30),(55,55),(55,56),(55,57),(55,60),(56,56),(56,57),(56,60),(57,57),(60,60),(61,61),(62,62),(62,68),(62,70),(68,68),(70,70);
+insert  into `menu_closure`(`id_ancestor`,`id_descendant`) values (1,1),(1,2),(1,7),(2,2),(7,7),(8,8),(8,9),(8,10),(8,11),(8,12),(8,61),(9,9),(10,10),(11,11),(12,12),(13,13),(13,14),(13,15),(13,16),(13,62),(13,68),(13,70),(14,14),(15,15),(16,16),(17,17),(17,18),(17,19),(17,20),(18,18),(19,19),(20,20),(30,30),(61,61),(62,62),(62,68),(62,70),(68,68),(70,70);
 
 /*Table structure for table `menu_meta` */
 
@@ -125,7 +125,7 @@ CREATE TABLE `menu_meta` (
 
 /*Data for the table `menu_meta` */
 
-insert  into `menu_meta`(`id`,`title`,`icon`,`onCache`,`menuType`,`hidden`) values (1,'首页','el:House',0,'catalog','0'),(2,'分析页',NULL,0,'menu','0'),(7,'工作台',NULL,0,'menu','0'),(8,'权限管理','el:SetUp',0,'catalog','0'),(9,'部门管理',NULL,0,'menu','0'),(10,'用户管理',NULL,0,'menu','0'),(11,'菜单管理',NULL,0,'menu','0'),(12,'角色管理',NULL,0,'menu','0'),(13,'系统管理','el:DataLine',0,'catalog','0'),(14,'日志管理',NULL,0,'menu','0'),(15,'通知管理',NULL,0,'menu','0'),(16,'配置管理',NULL,0,'menu','0'),(17,'系统监控','el:Monitor',0,'catalog','0'),(18,'在线用户',NULL,0,'menu','0'),(19,'登录日志',NULL,0,'menu','0'),(20,'服务监控',NULL,0,'menu','0'),(74,'测试一级','',0,'catalog','0'),(75,'测试一级一级','',0,'catalog','0'),(76,'测试一级一级一级','',0,'menu','0'),(79,'测试一级一级二级','',0,'menu','0'),(80,'菜单权限','',0,'menu','0'),(82,'字典管理','',0,'catalog','0'),(88,'字典配置','',0,'menu','0'),(90,'字典数据','',0,'menu','0');
+insert  into `menu_meta`(`id`,`title`,`icon`,`onCache`,`menuType`,`hidden`) values (1,'首页','el:House',0,'catalog','0'),(2,'分析页',NULL,0,'menu','0'),(7,'工作台',NULL,0,'menu','0'),(8,'权限管理','el:SetUp',0,'catalog','0'),(9,'部门管理',NULL,0,'menu','0'),(10,'用户管理',NULL,0,'menu','0'),(11,'菜单管理',NULL,0,'menu','0'),(12,'角色管理',NULL,0,'menu','0'),(13,'系统管理','el:DataLine',0,'catalog','0'),(14,'日志管理',NULL,0,'menu','0'),(15,'通知管理',NULL,0,'menu','0'),(16,'配置管理',NULL,0,'menu','0'),(17,'系统监控','el:Monitor',0,'catalog','0'),(18,'在线用户',NULL,0,'menu','0'),(19,'登录日志',NULL,0,'menu','0'),(20,'服务监控',NULL,0,'menu','0'),(80,'菜单权限','',0,'menu','1'),(82,'字典管理','',0,'catalog','0'),(88,'字典配置','',0,'menu','0'),(90,'字典数据','',0,'menu','0');
 
 /*Table structure for table `permission` */
 
@@ -133,17 +133,16 @@ DROP TABLE IF EXISTS `permission`;
 
 CREATE TABLE `permission` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `menu_id` bigint(20) NOT NULL COMMENT '所属菜单的id',
-  `label` varchar(255) NOT NULL COMMENT '权限名称',
   `value` varchar(255) NOT NULL COMMENT '权限名称',
+  `role_id` bigint(20) NOT NULL COMMENT '所属角色的id',
   PRIMARY KEY (`id`),
-  KEY `FK_b4083bde507bb8b760a2aaf9c08` (`menu_id`),
-  CONSTRAINT `FK_b4083bde507bb8b760a2aaf9c08` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8;
+  KEY `FK_383892d758d08d346f837d3d8b7` (`role_id`),
+  CONSTRAINT `FK_383892d758d08d346f837d3d8b7` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=342 DEFAULT CHARSET=utf8;
 
 /*Data for the table `permission` */
 
-insert  into `permission`(`id`,`menu_id`,`label`,`value`) values (93,12,'查找菜单权限','menuPermission'),(94,12,'查找菜单','queryMenu'),(95,12,'角色管理','rolesAdm'),(96,12,'查询角色','queryRole'),(97,12,'新增角色','saveRole'),(98,12,'修改角色','updateRole'),(99,12,'删除角色','removeRole'),(100,11,'菜单管理','menusAdm'),(101,11,'新增菜单','saveMenu'),(102,11,'修改菜单','updateMenu'),(103,11,'查找菜单权限','menuPermission'),(104,11,'查找菜单','queryMenu'),(105,11,'删除菜单','removeMenu'),(106,10,'用户管理','userAdm'),(107,10,'查询用户','queryUser'),(108,10,'新增用户','saveUser'),(109,10,'修改用户','updateUser'),(110,10,'删除用户','removeUser'),(111,10,'修改用户角色','updateUserRole'),(115,61,'查找菜单权限','menuPermission'),(116,61,'查找菜单','queryMenu'),(117,61,'菜单权限管理','menuPermissionAdm'),(118,61,'新增菜单权限','saveMenuPermission'),(119,61,'删除菜单权限','saveMenuPermission');
+insert  into `permission`(`id`,`value`,`role_id`) values (319,'permissionAdm',21),(320,'menusAdm',21),(321,'saveMenu',21),(322,'updateMenu',21),(323,'queryMenu',21),(324,'removeMenu',21),(325,'rolesAdm',21),(326,'queryRole',21),(327,'saveRole',21),(328,'updateRole',21),(329,'removeRole',21),(330,'saveRolePermission',21),(331,'queryRolePermission',21),(332,'queryRoleMenu',21),(333,'userAdm',21),(334,'queryUser',21),(335,'saveUser',21),(336,'updateUser',21),(337,'removeUser',21),(338,'updateUserRole',21),(339,'menuPermissionAdm',21),(340,'saveMenuPermission',21),(341,'saveMenuPermission',21);
 
 /*Table structure for table `role` */
 
@@ -159,11 +158,11 @@ CREATE TABLE `role` (
   `remark` varchar(100) NOT NULL COMMENT '备注',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 /*Data for the table `role` */
 
-insert  into `role`(`id`,`createTime`,`create_user`,`update_user`,`is_deleted`,`name`,`remark`,`update_time`) values (21,'2024-12-17 00:07:23.000000',NULL,NULL,'0','超级管理员','超级管理员拥有所有权限','2024-12-01 21:26:23');
+insert  into `role`(`id`,`createTime`,`create_user`,`update_user`,`is_deleted`,`name`,`remark`,`update_time`) values (21,'2024-12-22 16:19:40.000000',NULL,NULL,'0','超级管理员','超级管理员拥有所有权限','2024-12-01 21:26:23'),(22,'2024-12-22 19:46:48.237282',NULL,NULL,'0','角色1','角色1',NULL);
 
 /*Table structure for table `role_menu_relation` */
 
@@ -181,25 +180,7 @@ CREATE TABLE `role_menu_relation` (
 
 /*Data for the table `role_menu_relation` */
 
-insert  into `role_menu_relation`(`role_id`,`menu_id`) values (21,1),(21,2),(21,7),(21,8),(21,9),(21,10),(21,11),(21,12),(21,14),(21,15),(21,18),(21,19),(21,55),(21,56),(21,57),(21,60),(21,61),(21,62),(21,68),(21,70);
-
-/*Table structure for table `role_permission_permission` */
-
-DROP TABLE IF EXISTS `role_permission_permission`;
-
-CREATE TABLE `role_permission_permission` (
-  `roleId` bigint(20) NOT NULL,
-  `permissionId` bigint(20) NOT NULL,
-  PRIMARY KEY (`roleId`,`permissionId`),
-  KEY `IDX_be73ed38a02ea01cef07836835` (`roleId`),
-  KEY `IDX_1fff5824ba3354f53d4fae760c` (`permissionId`),
-  CONSTRAINT `FK_1fff5824ba3354f53d4fae760c3` FOREIGN KEY (`permissionId`) REFERENCES `permission` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_be73ed38a02ea01cef07836835e` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `role_permission_permission` */
-
-insert  into `role_permission_permission`(`roleId`,`permissionId`) values (21,93),(21,94),(21,95),(21,96),(21,97),(21,98),(21,99),(21,100),(21,101),(21,102),(21,103),(21,104),(21,105),(21,106),(21,107),(21,108),(21,109),(21,110),(21,111),(21,115),(21,116),(21,117),(21,118),(21,119);
+insert  into `role_menu_relation`(`role_id`,`menu_id`) values (21,1),(21,2),(21,7),(21,8),(21,9),(21,10),(21,11),(21,12),(21,13),(21,14),(21,15),(21,16),(21,17),(21,18),(21,19),(21,20),(21,61),(21,62),(21,68),(21,70),(22,1),(22,2),(22,7),(22,8),(22,9),(22,10),(22,11),(22,12),(22,13),(22,14),(22,15),(22,16),(22,17),(22,18),(22,19),(22,20),(22,61),(22,62),(22,68),(22,70);
 
 /*Table structure for table `user` */
 
@@ -216,11 +197,11 @@ CREATE TABLE `user` (
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_4ab2df0a57a74fdf904e0e2708` (`account`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`password`,`createTime`,`create_user`,`update_user`,`is_deleted`,`account`,`update_time`) values (6,'$2y$10$eRNe5nKB6LUzTmm2b0z7gOFtZ3oY9VFoHQckJezvZV2RwuKumOFpe','2024-12-02 07:31:03.863954',NULL,NULL,'0','admin',NULL);
+insert  into `user`(`id`,`password`,`createTime`,`create_user`,`update_user`,`is_deleted`,`account`,`update_time`) values (6,'$2y$10$eRNe5nKB6LUzTmm2b0z7gOFtZ3oY9VFoHQckJezvZV2RwuKumOFpe','2024-12-02 07:31:03.863954',NULL,NULL,'0','admin',NULL),(9,'$2y$10$PIk7gU/UwjHPNsdRuhzFm.BPT/TTdMxAkLHrBMIS6DylOKv0QnLPe','2024-12-21 21:46:39.108932',NULL,NULL,'0','user1',NULL),(10,'$2y$10$Vc4kTveez2jTec.U2SrQBOG6uT1pHjXL8Ig336B33uVYtJHPN735S','2024-12-21 21:46:47.536207',NULL,NULL,'0','user2',NULL),(11,'$2y$10$F99h.8K7I1.bHY.DWp2il.9Rlrr77cKJaeFfUIDEfsvsqAjl/h0Pi','2024-12-21 21:46:53.663488',NULL,NULL,'0','user3',NULL),(12,'$2y$10$16nuynP0lCKalUoEPWlQe.ZwO/uZMDRNkoi4jyItTgnfQSOP5Y6tG','2024-12-21 21:46:59.219776',NULL,NULL,'0','user4',NULL),(13,'$2y$10$e0E8l6ngs957yLu5KZqTaummHYQ2JZUKSBjshON37sv8xYr09WM6i','2024-12-21 21:47:06.974576',NULL,NULL,'0','user5',NULL),(14,'$2y$10$PtQ9gzdiRAVSCXSYDwRAiuzEy/juRFF9.YiC2sxZMlMfvzxvQrgGW','2024-12-21 21:47:17.020775',NULL,NULL,'0','user6',NULL),(15,'$2y$10$XvGLmp1rqjAYB7lClJbiFuADh7DadXyWVKFLKJBjXbzxcS4eUj8lW','2024-12-21 21:47:24.065380',NULL,NULL,'0','user7',NULL),(16,'$2y$10$afPcguKftke5FODJep38nenAGkjbKS7CRxodPdZT9FIuUdWb6psyy','2024-12-21 21:47:31.559913',NULL,NULL,'0','user8',NULL),(17,'$2y$10$mtIgDWSxlsFcj9F90OIT9.C0sboaTuJ53rSLD3ek0XMumfhEgG4Xi','2024-12-23 21:28:49.446668',NULL,NULL,'0','user9',NULL),(18,'$2y$10$Qc8P42dgMl23m0UvS/QD.ug2rMMVeL0X/T.UBjed6u5OlUpaY0xTe','2024-12-23 21:28:56.790547',NULL,NULL,'0','user10',NULL);
 
 /*Table structure for table `user_role_relation` */
 

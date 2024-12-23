@@ -132,15 +132,15 @@ export class MenusService {
 
 
   // 查找某个菜单的权限列表
-  async findMenuPermissionList(menuId: string) {
-    const menuPermission = await this.menuRep.findOne({
-      where: {
-        id: menuId
-      },
-      relations: ["permission"]
-    })
-    return menuPermission.permission
-  }
+  // async findMenuPermissionList(menuId: string) {
+  //   const menuPermission = await this.menuRep.findOne({
+  //     where: {
+  //       id: menuId
+  //     },
+  //     relations: ["permission"]
+  //   })
+  //   return menuPermission.permission
+  // }
 
   // 更新菜单
   async updateMenu(menu: UpdateMenuDto) {

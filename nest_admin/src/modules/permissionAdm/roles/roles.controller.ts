@@ -16,12 +16,14 @@ export class RolesController {
   }
 
   // 设置角色权限
+  // @PermissionMeta(rolesMeta.saveRolePermission.value)
   @Post("permission/save")
   async saveRolePermission(@Body() roleReq) {
     return await this.rolesService.saveRolePermission(roleReq)
   }
 
   // 获取角色权限
+  // @PermissionMeta(rolesMeta.queryRolePermission.value)
   @Get("permission")
   findRolePermission(@Query("roleId") roleId) {
     return this.rolesService.findRolePermission(roleId)
@@ -29,6 +31,7 @@ export class RolesController {
 
   // 查角色菜单
   @Get("menu")
+  // @PermissionMeta(rolesMeta.queryRoleMenu.value)
   findRoleMenu(@Query("roleIds") roleIds) {
     return this.rolesService.findRoleMenu(roleIds)
   }

@@ -13,18 +13,17 @@ export class PermissionService {
 
   // 获取权限元数据树
   getPermissionMetaTree() {
+    // console.log(PermissionMetaData);
     return PermissionMetaData
   }
 
-  // 新增权限
-  async createPermission(permission) {
-    const { menuId, permissionList } = permission
-    // console.log(menuId, permissionList);
-    const isDel = await this.permissionRep.delete({ menuId: menuId })
-    // console.log(isDel);
-    const savePermission = await this.permissionRep.insert(permissionList)
-    return savePermission
-
+  // 设置角色权限
+  async saveRolePermission(roleId, permissionList) {
+    const delPermission = await this.permissionRep.delete({
+      roleId
+    })
+    const savePermission = await this.permissionRep.save(permissionList)
+    return;
   }
 
   // 删除权限

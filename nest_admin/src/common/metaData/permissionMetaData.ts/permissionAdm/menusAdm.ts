@@ -8,10 +8,6 @@ export const menusMeta = {
     label: "修改菜单",
     value: "updateMenu"
   },
-  menuPermission: {
-    label: "查找菜单权限",
-    value: "menuPermission"
-  },
   queryMenu: {
     label: "查找菜单",
     value: "queryMenu"

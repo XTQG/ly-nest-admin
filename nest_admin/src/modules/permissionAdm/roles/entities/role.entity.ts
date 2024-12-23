@@ -1,6 +1,6 @@
 import { BaseEntity } from "src/common/entity/BaseEntity";
 import { Menu } from "src/modules/permissionAdm/menus/entities/menu.entity";
-import { Column, Entity, JoinTable, ManyToMany } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from "typeorm";
 import { User } from "../../user/entities/user.entity";
 import { Permission } from "../../permission/entities/permission.entity";
 
@@ -26,9 +26,12 @@ export class Role extends BaseEntity {
   })
   users: User[];
 
-  @ManyToMany(() => Permission, permission => permission.role)
-  @JoinTable()
-  permission: Permission[]
+  @OneToMany(() => Permission, (permission) => permission.role, {
+    cascade: true,
+    eager: true,
+    onDelete: "CASCADE",
+  })
+  permission: Permission[];
 
   @ManyToMany(() => Menu, menu => menu.roles, { cascade: true, onDelete: "CASCADE" })
   @JoinTable({

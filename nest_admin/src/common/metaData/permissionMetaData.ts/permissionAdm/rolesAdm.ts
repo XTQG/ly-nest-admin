@@ -14,7 +14,19 @@ export const rolesMeta = {
   removeRole: {
     label: "删除角色",
     value: "removeRole"
-  }
+  },
+  saveRolePermission: {
+    label: "设置角色权限",
+    value: "saveRolePermission"
+  },
+  queryRolePermission: {
+    label: "获取角色权限",
+    value: "queryRolePermission"
+  },
+  queryRoleMenu: {
+    label: "获取角色菜单",
+    value: "queryRoleMenu"
+  },
 }
 
 export const rolesAdm = {

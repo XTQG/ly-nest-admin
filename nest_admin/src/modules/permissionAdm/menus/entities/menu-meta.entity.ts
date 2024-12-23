@@ -12,9 +12,6 @@ export class MenuMeta {
   })
   title: string;
 
-
-
-
   @Column({
     comment: '菜单类型',
   })

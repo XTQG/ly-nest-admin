@@ -42,12 +42,11 @@ export class PermissionGuard implements CanActivate {
       throw new ForbiddenException('用户不存在,请重新登录')
     }
 
-
     let permission = []
     userPermission.roles.forEach((role) => {
       permission = permission.concat(role.permission)
     })
-
+    // console.log(permission);
     const hasPermission = permission.some((item) => {
       return item.value === perMeta
     })

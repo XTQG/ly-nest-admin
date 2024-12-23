@@ -15,13 +15,26 @@ export class UsersService {
   ) { }
 
   async queryUser(user) {
-    const users = await this.userRepository.find({
-      where: {
-        account: Like(`%${user.account}%`),
-      },
-      relations: ['roles'],
-    });
-    return users;
+
+    const { account, pageSize, currentPage, } = user
+    // const { pageSize, currentPage } = page
+
+    // const users = await this.userRepository.find({
+    //   where: {
+    //     account: Like(`%${user.account}%`),
+    //   },
+    //   relations: ['roles'],
+    // });
+    // return users;
+    let users = await this.userRepository.createQueryBuilder("user").andWhere({
+      account: Like(`%${account}%`)
+    })
+
+    if (pageSize && currentPage) {
+      return await users.leftJoinAndSelect("user.roles", "roles").skip((currentPage - 1) * pageSize).take(pageSize).getManyAndCount()
+    } else {
+      return await users.leftJoinAndSelect("user.roles", "roles").getMany()
+    }
   }
 
   async findOne(account: string) {

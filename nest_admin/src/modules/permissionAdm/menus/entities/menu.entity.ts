@@ -83,12 +83,12 @@ export class Menu extends BaseEntity {
   @ManyToMany(() => Role, (role) => role.menus)
   roles: Role[];
 
-  @OneToMany(() => Permission, (permission) => permission.menu, {
-    cascade: true,
-    eager: true,
-    onDelete: "CASCADE",
-  })
-  permission: Permission[];
+  // @OneToMany(() => Permission, (permission) => permission.menu, {
+  //   cascade: true,
+  //   eager: true,
+  //   onDelete: "CASCADE",
+  // })
+  // permission: Permission[];
 
 
 }

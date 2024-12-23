@@ -1,16 +1,16 @@
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Menu } from "../../menus/entities/menu.entity";
+// import { Menu } from "../../menus/entities/menu.entity";
 import { Role } from "../../roles/entities/role.entity";
 
 @Entity()
-export class Permission  {
+export class Permission {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: string;
 
-  @Column({
-    comment: '权限名称',
-  })
-  label: string;
+  // @Column({
+  //   comment: '权限名称',
+  // })
+  // label: string;
 
   @Column({
     comment: '权限名称',
@@ -18,16 +18,16 @@ export class Permission  {
   value: string;
 
   @Column({
-    comment: '所属菜单的id',
-    name: 'menu_id',
+    comment: '所属角色的id',
+    name: 'role_id',
   })
-  menuId: string;
+  roleId: string;
 
-  @ManyToOne(() => Menu, (menu) => menu.permission)
-  @JoinColumn({ name: 'menu_id' })
-  menu: Menu;
+  @ManyToOne(() => Role, (role) => role.permission)
+  @JoinColumn({ name: 'role_id' })
+  role: Role;
 
-  @ManyToMany(() => Role, (role) => role.permission)
-  role: Role[];
+  // @ManyToMany(() => Role, (role) => role.permission)
+  // role: Role[];
 
 }
