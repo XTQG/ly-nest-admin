@@ -20,6 +20,6 @@ export const menusMeta = {
 
 export const menusAdm = {
   label: "菜单管理",
-  value: "menusAdm:",
+  value: "menusAdm",
   children: Object.values(menusMeta)
 }

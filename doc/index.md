@@ -11,8 +11,6 @@ nest new project-name
 "prettier/prettier": ["error", { "endOfLine": "auto" }]
 
 
-
-
 # 创建文件
 创建 src/modules 文件夹用于存放模块
 
@@ -31,7 +29,6 @@ WebSockets
 Would you like to generate CRUD entry points? 您想生成CRUD入口点吗？
 
 y回车生成一个包含crud的模块，n不生成
-
 
 创建 src/common 文件夹用于存放公共文件
 

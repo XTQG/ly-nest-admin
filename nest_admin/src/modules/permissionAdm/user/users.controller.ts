@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Req, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { PermissionMeta } from 'src/common/metaData/permissionMetaData.ts';
 import { userAdm, usersMeta } from 'src/common/metaData/permissionMetaData.ts/permissionAdm/usersAdm';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @PermissionMeta(userAdm.value)
 @Controller('user')
@@ -27,7 +28,7 @@ export class UsersController {
 
   @PermissionMeta(usersMeta.saveUser.value)
   @Post("save")
-  createUser(@Body() user) {
+  createUser(@Body() user: CreateUserDto) {
     return this.userService.createUser(user);
   }
 

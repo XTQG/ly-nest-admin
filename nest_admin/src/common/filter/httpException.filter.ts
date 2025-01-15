@@ -10,15 +10,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
     // const status = exception.getStatus(); // 获取异常的状态码
 
     let msg = exception.message;
-    // console.log(exception);
 
-    // const errRes: any = exception?.getResponse()
-    // console.log(errRes);
+    const errRes: any = exception?.getResponse()
+    if (errRes) {
+      msg = errRes?.message[0]
+    }
 
-    // if (errRes) {
-    //   msg = errRes?.msg
-    // }
-
+    // 获取异常的状态码
     const status =
       exception instanceof HttpException
         ? exception.getStatus()
@@ -28,7 +26,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       console.error(exception);
       msg = "服务器异常"
     }
-    
+
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),
