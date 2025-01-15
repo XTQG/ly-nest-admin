@@ -1,23 +1,23 @@
 export const usersMeta = {
   queryUser: {
     label: "查询用户",
-    value: "queryUser"
+    value: "userAdm:queryUser"
   },
   saveUser: {
     label: "新增用户",
-    value: "saveUser"
+    value: "userAdm:saveUser"
   },
   updateUser: {
     label: "修改用户",
-    value: "updateUser"
+    value: "userAdm:updateUser"
   },
   removeUser: {
     label: "删除用户",
-    value: "removeUser"
+    value: "userAdm:removeUser"
   },
   updateUserRole: {
     label: "修改用户角色",
-    value: "updateUserRole"
+    value: "userAdm:updateUserRole"
   },
 }
 

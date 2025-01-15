@@ -1,11 +1,11 @@
 export const rolePermissionMeta = {
   savePermission: {
     label: "新增菜单权限",
-    value: "saveMenuPermission"
+    value: "menuPermissionAdm:saveMenuPermission"
   },
   removePermission: {
     label: "删除菜单权限",
-    value: "removeMenuPermission"
+    value: "menuPermissionAdm:removeMenuPermission"
   },
 }
 

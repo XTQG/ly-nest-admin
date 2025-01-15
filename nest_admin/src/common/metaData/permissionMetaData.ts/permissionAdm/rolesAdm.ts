@@ -1,31 +1,31 @@
 export const rolesMeta = {
   queryRole: {
     label: "查询角色",
-    value: "queryRole"
+    value: "rolesAdm:queryRole"
   },
   saveRole: {
     label: "新增角色",
-    value: "saveRole"
+    value: "rolesAdm:saveRole"
   },
   updateRole: {
     label: "修改角色",
-    value: "updateRole"
+    value: "rolesAdm:updateRole"
   },
   removeRole: {
     label: "删除角色",
-    value: "removeRole"
+    value: "rolesAdm:removeRole"
   },
   saveRolePermission: {
     label: "设置角色权限",
-    value: "saveRolePermission"
+    value: "rolesAdm:saveRolePermission"
   },
   queryRolePermission: {
     label: "获取角色权限",
-    value: "queryRolePermission"
+    value: "rolesAdm:queryRolePermission"
   },
   queryRoleMenu: {
     label: "获取角色菜单",
-    value: "queryRoleMenu"
+    value: "rolesAdm:queryRoleMenu"
   },
 }
 

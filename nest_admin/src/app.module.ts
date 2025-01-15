@@ -45,7 +45,7 @@ const NODE_DEV = process.env.NODE_ENV;
           host: configService.get('DB_HOST', 'localhost'), // 主机，默认为localhost
           port: configService.get<number>('DB_PORT', 3306), // 端口号
           username: configService.get('DB_USER', 'root'),   // 用户名
-          password: configService.get('DB_PASSWORD', '293598'), // 密码
+          password: configService.get('DB_PASSWORD', '123123'), // 密码
           database: configService.get('DB_DATABASE', 'nest_admin'), //数据库名
           timezone: '+08:00', //服务器上配置的时区
           synchronize: true, //根据实体自动创建数据库表， 生产环境建议关闭
