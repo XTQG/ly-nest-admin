@@ -13,6 +13,13 @@ export class AuthController {
     return this.authService.login(user);
   }
 
+  @Public()
+  // 注册
+  @Post("register")
+  async register(@Body() user) {
+    return this.authService.register(user);
+  }
+
   // 刷新token
   @Post("refreshToken")
   async refreshToken(@Body() token) {

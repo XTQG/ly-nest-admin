@@ -2,23 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Like, Repository } from 'typeorm';
-import { Role } from '../roles/entities/role.entity';
+// import { Role } from '../roles/entities/role.entity';
 import { ClsService } from 'nestjs-cls';
+import { BaseService } from 'src/common/BaseService';
 
 @Injectable()
-export class UsersService {
+export class UsersService extends BaseService<User, UsersService> {
 
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly clsService: ClsService
-  ) { }
+  ) { 
+    super(userRepository)
+  }
 
   async queryUser(user) {
-
     const { account, pageSize, currentPage, } = user
     // const { pageSize, currentPage } = page
-
     // const users = await this.userRepository.find({
     //   where: {
     //     account: Like(`%${user.account}%`),
@@ -85,14 +86,21 @@ export class UsersService {
   }
 
   async updateUser(user) {
-    return await this.userRepository.save(user);
+    const newUser = await this.userRepository.create(user);
+    return await this.userRepository.save(newUser);
   }
 
   async updateUserRole(user) {
+    // const roles = user.roles.map((item) => {
+    //   return Object.assign(new Role(), { id: item })
+    // })
     const roles = user.roles.map((item) => {
-      return Object.assign(new Role(), { id: item })
+      return {
+        id: item
+      }
     })
     user.roles = roles;
+
     const saveUser = await this.userRepository.save(user);
     return saveUser;
   }

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Query } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, } from '@nestjs/common';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Menu } from './entities/menu.entity';
@@ -144,9 +144,12 @@ export class MenusService {
 
   // 更新菜单
   async updateMenu(menu: UpdateMenuDto) {
+
+    const newMenu = this.menuRep.create(menu)
+
     // console.log(menu);
-    const parentId = menu?.parentId
-    const menuData = await this.findOne(menu.id)
+    const parentId = newMenu?.parentId
+    const menuData = await this.findOne(newMenu.id)
 
     if (!menuData) {
       throw new BadRequestException({
@@ -155,16 +158,16 @@ export class MenusService {
     }
 
     if (parentId) {
-      menu.parent = await this.findParentMenu(menu.parentId)
+      newMenu.parent = await this.findParentMenu(newMenu.parentId)
     } else {
-      menu.parent = null
+      newMenu.parent = null
     }
 
-    const newUpdateMenu = this.menuRep.create(menu)
+    const newUpdateMenu = this.menuRep.create(newMenu)
     const updateMenu = await this.menuRep.save(newUpdateMenu)
     // console.log(updateMenu);
 
-    return menu
+    return {}
   }
 
   // 删除菜单

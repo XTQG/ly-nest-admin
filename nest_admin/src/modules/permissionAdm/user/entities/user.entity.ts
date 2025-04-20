@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from "@node-rs/bcrypt";
 import { BaseEntity } from "src/common/entity/BaseEntity";
 import { Role } from "../../roles/entities/role.entity";
@@ -31,4 +31,12 @@ export class User extends BaseEntity {
   async encryptPwd() {
     this.password = await bcrypt.hash(this.password, 10);
   }
+
+  @BeforeUpdate()
+  async updatePwd() {
+    if (this.password) {
+      this.password = await bcrypt.hash(this.password, 10);
+    }
+  }
+
 }

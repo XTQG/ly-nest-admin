@@ -11,9 +11,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     let msg = exception.message;
 
-    const errRes: any = exception?.getResponse()
+    const errRes: any = exception?.getResponse ? exception.getResponse() : {
+      message: '服务器异常',
+      code: 500
+    };
+    // console.log(22,errRes);
+
     if (errRes) {
-      msg = errRes?.message[0]
+      // msg = errRes?.message[0]
+      msg = errRes?.message
     }
 
     // 获取异常的状态码

@@ -1,5 +1,5 @@
 import * as dayjs from "dayjs";
-import { BeforeUpdate, Column, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeUpdate, Column, PrimaryGeneratedColumn } from "typeorm";
 
 export class BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -16,7 +16,6 @@ export class BaseEntity {
     },
     comment: '创建时间',
   })
-  @UpdateDateColumn()
   createTime: string;
 
   @Column({
@@ -31,6 +30,7 @@ export class BaseEntity {
     },
     comment: '更新时间',
   })
+  // @UpdateDateColumn()
   updateTime: string;
 
   @Column({
@@ -58,5 +58,12 @@ export class BaseEntity {
     comment: '是否删除: NULL未删除，1删除',
   })
   isDeleted: number;
+
+  @BeforeUpdate()
+  updateTimestamp() {
+    delete this.updateTime
+    delete this.createTime
+    delete this.createUser
+  }
 }
 

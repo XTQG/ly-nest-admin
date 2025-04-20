@@ -1,26 +1,29 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from '@node-rs/bcrypt';
-import { MenusService } from '../permissionAdm/menus/menus.service';
 import { ClsService } from 'nestjs-cls';
 import { UsersService } from '../permissionAdm/user/users.service';
+import { CaptchaService } from '../common/captcha.service';
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    private readonly clsService: ClsService
+    private readonly clsService: ClsService,
+    private readonly captchaService: CaptchaService,
   ) { }
 
   // 生成token
   async generateToken(id: string) {
     return {
+      // 短token
       access_token: await this.jwtService.signAsync({
         id: id
       }, {
-        expiresIn: '8h' //1小时过期，这里短点方便验证
-      }), //将token返回给客户端
+        expiresIn: '3d'
+      }),
+      // 长 token 用于刷新短 token
       refresh_token: await this.jwtService.signAsync({
         id: id,
       }, {
@@ -31,6 +34,20 @@ export class AuthService {
 
   // 登录
   async login(user: LoginDto) {
+
+    if (!user.username) {
+      throw new HttpException('用户名不能为空', 400);
+    }
+
+    if (!user.password) {
+      throw new HttpException('密码不能为空', 400);
+    }
+    // 验证码验证
+    let validateCaptcha = this.captchaService.validateCaptcha(user.uuid, user.code)
+    if (validateCaptcha !== 'true') {
+      throw new HttpException({ message: '验证码错误' }, 400);
+    }
+
     const existUser = await this.usersService.findOne(user.username);
     // 判断用户是否存在
     if (!existUser) {
@@ -56,6 +73,26 @@ export class AuthService {
       tokenKey: "Authorization",
       userInfo: { ...existUser, password: "" },
     }
+  }
+
+  // 注册
+  async register(user: any) {
+
+    // 验证码验证
+    let validateCaptcha = this.captchaService.validateCaptcha(user.uuid, user.code)
+    if (validateCaptcha !== 'true') {
+      throw new HttpException({ message: '验证码错误' }, 400);
+    }
+
+    const existUser = await this.usersService.findOne(user.account)
+    if (existUser) {
+      throw new HttpException({
+        message: "用户已存在"
+      }, 400)
+    }
+
+    return await this.usersService.createUser(user)
+
   }
 
   // 刷新token

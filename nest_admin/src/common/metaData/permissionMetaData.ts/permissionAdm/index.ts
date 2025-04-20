@@ -1,9 +1,9 @@
+import { userMeta } from "src/modules/permissionAdm/user/meta";
 import { menusAdm } from "./menusAdm";
 import { rolesAdm } from "./rolesAdm";
-import { userAdm } from "./usersAdm";
 
 export const permissionAdm = [
   { ...menusAdm },
   { ...rolesAdm },
-  { ...userAdm },
+  { ...userMeta },
 ]

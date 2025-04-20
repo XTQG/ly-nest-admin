@@ -36,6 +36,7 @@
     "class-validator": "^0.14.1",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.13",
+    "ioredis": "^5.6.1",
     "mysql2": "^3.11.4",
     "nestjs-cls": "^4.5.0",
     "passport": "^0.7.0",
@@ -43,6 +44,7 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "svg-captcha": "^1.4.0",
     "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.20"
   },

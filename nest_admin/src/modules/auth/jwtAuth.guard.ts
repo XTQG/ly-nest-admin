@@ -40,7 +40,7 @@ export class JwtAuthGuard implements CanActivate {
 
       return true;
     } catch (error) {
-      throw new UnauthorizedException('登录 token 错误');
+      throw new UnauthorizedException('登录 token 错误,请重新登录');
     }
 
   }

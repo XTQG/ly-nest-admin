@@ -11,6 +11,7 @@ import { ClsModule } from 'nestjs-cls';
 import { UsersModule } from '../permissionAdm/user/users.module';
 import { User } from '../permissionAdm/user/entities/user.entity';
 import { PermissionGuard } from './permission.guard';
+import { CommonModule } from '../common/common.module';
 
 const jwtModule = JwtModule.registerAsync({
   inject: [ConfigService],
@@ -30,6 +31,7 @@ const jwtModule = JwtModule.registerAsync({
     jwtModule,
     MenusModule,
     ClsModule,
+    CommonModule
   ],
   controllers: [AuthController],
   providers: [
