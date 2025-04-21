@@ -17,7 +17,7 @@ export class BaseController<T, K> {
   private readonly clsService: ClsService
 
   // 新增或者更新
-  @PermissionMeta((this as any).controllerUrl + '_save')
+  @PermissionMeta('save')
   @Post('save')
   async save(@Body() body) {
     const userId = this.clsService.get('userId')
@@ -34,7 +34,7 @@ export class BaseController<T, K> {
     return await this.service.save(body)
   }
 
-  @PermissionMeta((this as any).controllerUrl + '_add')
+  @PermissionMeta('add')
   @Post('add')
   async add(@Body() body) {
     delete body.updateUser
@@ -43,19 +43,17 @@ export class BaseController<T, K> {
     return this.service.add(body)
   }
 
-  @PermissionMeta((this as any).controllerUrl + '_update')
+  @PermissionMeta('update')
   @Post('update')
   async update(@Body() body) {
     delete body.createUser
     const userId = this.clsService.get('userId')
-    body.updateUser = userId
-    return this.service.update(body)
+    // body.updateUser = userId
+    return this.service.update(body,userId)
   }
 
-
-
   // 逻辑删除
-  @PermissionMeta((this as any).controllerUrl + '_remove')
+  @PermissionMeta('remove')
   @Get('remove')
   async getRemove(@Query('id') id) {
     const userId = this.clsService.get('userId')
@@ -63,7 +61,7 @@ export class BaseController<T, K> {
   }
 
   // 物理删除
-  @PermissionMeta((this as any).controllerUrl + '_delete')
+  @PermissionMeta('delete')
   @Get('delete')
   async getDel(@Query('id') id) {
     const userId = this.clsService.get('userId')
@@ -71,7 +69,7 @@ export class BaseController<T, K> {
   }
 
   // 批量逻辑删除
-  @PermissionMeta((this as any).controllerUrl + '_removeBatch')
+  @PermissionMeta('removeBatch')
   @Post('remove-batch')
   async postRemove(@Body('ids') ids: string) {
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -82,7 +80,7 @@ export class BaseController<T, K> {
   }
 
   // 批量物理删除
-  @PermissionMeta((this as any).controllerUrl + '_deleteBatch')
+  @PermissionMeta('deleteBatch')
   @Post('delete-batch')
   async postDelete(@Body('ids') ids: string) {
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -93,12 +91,19 @@ export class BaseController<T, K> {
   }
 
   // 分页查询
-  @PermissionMeta((this as any).controllerUrl + '_list')
+  @PermissionMeta('list')
   @Get('list')
   async list(@Query() query: QueryListDto): Promise<ResponseListDto<T> | T[]> {
     query.currentPage ??= 1
     query.pageSize ??= 10
     return this.service.list(query)
+  }
+
+  // 查询所有
+  @PermissionMeta('queryAll')
+  @Get('all')
+  async queryAll(@Query() query) {
+    return this.service.queryAll(query)
   }
 
 }

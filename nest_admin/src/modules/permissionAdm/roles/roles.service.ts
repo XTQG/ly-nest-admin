@@ -4,28 +4,31 @@ import { Role } from './entities/role.entity';
 import { ILike, In, Repository } from 'typeorm';
 import { Menu } from '../menus/entities/menu.entity';
 import { PermissionService } from '../permission/permission.service';
+import { BaseService } from 'src/common/BaseService';
 
 @Injectable()
-export class RolesService {
+export class RolesService extends BaseService<Role, Repository<Role>> {
 
   constructor(
     @InjectRepository(Role)
     private readonly roleRep: Repository<Role>,
     private readonly permissionService: PermissionService,
-  ) { }
-
-  async findAll(role) {
-    const { name = "" } = role
-    // console.log(role);
-
-    const roleData = await this.roleRep.find({
-      where: {
-        name: ILike(`%${name}%`)
-      },
-    })
-    // console.log(roleData);
-    return roleData
+  ) {
+    super(roleRep);
   }
+
+  // async findAll(role) {
+  //   const { name = "" } = role
+  //   // console.log(role);
+
+  //   const roleData = await this.roleRep.find({
+  //     where: {
+  //       name: ILike(`%${name}%`)
+  //     },
+  //   })
+  //   // console.log(roleData);
+  //   return roleData
+  // }
 
   // 查角色菜单
   async findRoleMenu(roleIds) {
@@ -44,7 +47,7 @@ export class RolesService {
 
   // 设置角色权限
   async saveRolePermission(roleReq) {
-    const { roleId, permissionList } = roleReq
+    const { roleId, permissionList } = roleReq    
     const savePermission = await this.permissionService.saveRolePermission(roleId, permissionList)
     return savePermission;
   }
@@ -59,11 +62,11 @@ export class RolesService {
     })
   }
 
-  async createRole(role) {
-    role.menus = role.menus.map((id) => Object.assign(new Menu(), { id }))
-    const save = await this.roleRep.save(role)
-    return save
-  }
+  // async createRole(role) {
+  //   role.menus = role.menus.map((id) => Object.assign(new Menu(), { id }))
+  //   const save = await this.roleRep.save(role)
+  //   return save
+  // }
 
   async updateRole(role) {
     if (!role?.id) {
@@ -76,9 +79,9 @@ export class RolesService {
     return saveRole
   }
 
-  async removeRole(id) {
-    const deleteRole = await this.roleRep.delete(id)
-    return deleteRole
-  }
+  // async removeRole(id) {
+  //   const deleteRole = await this.roleRep.delete(id)
+  //   return deleteRole
+  // }
 
 }

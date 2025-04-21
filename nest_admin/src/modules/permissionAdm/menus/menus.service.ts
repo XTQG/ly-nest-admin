@@ -15,6 +15,7 @@ export class MenusService {
     private readonly menuMetaRep: Repository<MenuMeta>,
   ) { }
 
+  
   async findAll() {
     try {
       const menuList = await this.menuRep.find()
@@ -29,26 +30,26 @@ export class MenusService {
   }
 
   // 根据菜单数据构建菜单树
-  async builderMenuTree(menuList) {
-    const menuAll = await this.findAll()
-    const menuAllMap = {}
-    menuAll.forEach((menu) => {
-      menuAllMap[menu.id] = menu
-    })
-    const parentList = []
-    menuList.forEach((menu) => {
-      const parent = menuAllMap[menu.parentId]
-      if (parent) {
-        parentList.push(parent)
-      }
-    })
-    const menuMap = new Map()
-    parentList.concat(menuList).forEach((menu) => {
-      menuMap.set(menu.id, menu)
-    })
-    const menuResult = Array.from(menuMap)
-    return builderTree(menuResult)
-  }
+  // async builderMenuTree(menuList) {
+  //   const menuAll = await this.findAll()
+  //   const menuAllMap = {}
+  //   menuAll.forEach((menu) => {
+  //     menuAllMap[menu.id] = menu
+  //   })
+  //   const parentList = []
+  //   menuList.forEach((menu) => {
+  //     const parent = menuAllMap[menu.parentId]
+  //     if (parent) {
+  //       parentList.push(parent)
+  //     }
+  //   })
+  //   const menuMap = new Map()
+  //   parentList.concat(menuList).forEach((menu) => {
+  //     menuMap.set(menu.id, menu)
+  //   })
+  //   const menuResult = Array.from(menuMap)
+  //   return builderTree(menuResult)
+  // }
 
   // 查找菜单
   async queryMenu(menuReq) {
@@ -75,15 +76,15 @@ export class MenusService {
   }
 
   // 树查询所有菜单
-  async treeFind() {
-    const treeRep = this.menuRep as any
-    const rootMenus = await treeRep.findTrees(
-      {
-        relations: ["meta"]
-      },
-    )
-    return rootMenus
-  }
+  // async treeFind() {
+  //   const treeRep = this.menuRep as any
+  //   const rootMenus = await treeRep.findTrees(
+  //     {
+  //       relations: ["meta"]
+  //     },
+  //   )
+  //   return rootMenus
+  // }
 
   // 查找单个菜单
   async findOne(id: string) {

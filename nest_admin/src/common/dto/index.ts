@@ -1,6 +1,6 @@
 export type SaveDto<T> = {
   [index: string]: any
-} & Partial<T>
+}
 
 export type QueryOneDto = {
   id?: string

@@ -5,6 +5,7 @@ import * as bcrypt from '@node-rs/bcrypt';
 import { ClsService } from 'nestjs-cls';
 import { UsersService } from '../permissionAdm/user/users.service';
 import { CaptchaService } from '../common/captcha.service';
+import { LoginLogsService } from '../login-logs/login-logs.service';
 @Injectable()
 export class AuthService {
   constructor(
@@ -12,6 +13,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly clsService: ClsService,
     private readonly captchaService: CaptchaService,
+    private readonly loginLogsService: LoginLogsService,
   ) { }
 
   // 生成token
@@ -33,38 +35,66 @@ export class AuthService {
   }
 
   // 登录
-  async login(user: LoginDto) {
+  async login(user: LoginDto, req) {
 
-    if (!user.username) {
-      throw new HttpException('用户名不能为空', 400);
+    let existUser = null
+
+    try {
+
+      if (!user.username) {
+        // throw new HttpException('用户名不能为空', 400);
+        throw new Error('账号不能为空')
+      }
+
+      if (!user.password) {
+        // throw new HttpException('密码不能为空', 400);
+        throw new Error('密码不能为空')
+      }
+      // 验证码验证
+      let validateCaptcha = this.captchaService.validateCaptcha(user.uuid, user.code)
+      if (validateCaptcha !== 'true') {
+        // throw new HttpException({ message: '验证码错误' }, 400);
+        throw new Error('验证码错误')
+      }
+
+      existUser = await this.usersService.findOne(user.username);
+      // 判断用户是否存在
+      if (!existUser) {
+        // throw new BadRequestException({
+        //   code: 400,
+        //   msg: "用户不存在"
+        // })
+        throw new Error('用户不存在')
+      }
+
+      // 密码校验
+      const isValid = await bcrypt.compare(user.password, existUser.password)
+      if (!isValid) {
+        // throw new BadRequestException({
+        //   code: 400,
+        //   msg: "密码错误"
+        // })
+        throw new Error('密码错误')
+      }
+    } catch (error) {
+      const message = error.message
+      const log = {
+        account: user.username,
+        isSuccess: 0,
+        msg: message
+      }
+      await this.loginLogsService.createLogs(req, log)
+
+      throw new BadRequestException(message)
     }
 
-    if (!user.password) {
-      throw new HttpException('密码不能为空', 400);
+    const log = {
+      createUser: existUser.id,
+      account: user.username,
+      isSuccess: 1,
+      msg: "登录成功"
     }
-    // 验证码验证
-    let validateCaptcha = this.captchaService.validateCaptcha(user.uuid, user.code)
-    if (validateCaptcha !== 'true') {
-      throw new HttpException({ message: '验证码错误' }, 400);
-    }
-
-    const existUser = await this.usersService.findOne(user.username);
-    // 判断用户是否存在
-    if (!existUser) {
-      throw new BadRequestException({
-        code: 400,
-        msg: "用户不存在"
-      })
-    }
-
-    // 密码校验
-    const isValid = await bcrypt.compare(user.password, existUser.password)
-    if (!isValid) {
-      throw new BadRequestException({
-        code: 400,
-        msg: "密码错误"
-      })
-    }
+    await this.loginLogsService.createLogs(req, log)
 
     const towToken = await this.generateToken(existUser.id)
 
@@ -91,7 +121,7 @@ export class AuthService {
       }, 400)
     }
 
-    return await this.usersService.createUser(user)
+    return await this.usersService.save(user)
 
   }
 

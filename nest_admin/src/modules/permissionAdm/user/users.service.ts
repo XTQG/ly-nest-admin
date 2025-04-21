@@ -17,26 +17,26 @@ export class UsersService extends BaseService<User, UsersService> {
     super(userRepository)
   }
 
-  async queryUser(user) {
-    const { account, pageSize, currentPage, } = user
-    // const { pageSize, currentPage } = page
-    // const users = await this.userRepository.find({
-    //   where: {
-    //     account: Like(`%${user.account}%`),
-    //   },
-    //   relations: ['roles'],
-    // });
-    // return users;
-    let users = await this.userRepository.createQueryBuilder("user").andWhere({
-      account: Like(`%${account}%`)
-    })
+  // async queryUser(user) {
+  //   const { account, pageSize, currentPage, } = user
+  //   // const { pageSize, currentPage } = page
+  //   // const users = await this.userRepository.find({
+  //   //   where: {
+  //   //     account: Like(`%${user.account}%`),
+  //   //   },
+  //   //   relations: ['roles'],
+  //   // });
+  //   // return users;
+  //   let users = await this.userRepository.createQueryBuilder("user").andWhere({
+  //     account: Like(`%${account}%`)
+  //   })
 
-    if (pageSize && currentPage) {
-      return await users.leftJoinAndSelect("user.roles", "roles").skip((currentPage - 1) * pageSize).take(pageSize).getManyAndCount()
-    } else {
-      return await users.leftJoinAndSelect("user.roles", "roles").getMany()
-    }
-  }
+  //   if (pageSize && currentPage) {
+  //     return await users.leftJoinAndSelect("user.roles", "roles").skip((currentPage - 1) * pageSize).take(pageSize).getManyAndCount()
+  //   } else {
+  //     return await users.leftJoinAndSelect("user.roles", "roles").getMany()
+  //   }
+  // }
 
   async findOne(account: string) {
     const user = await this.userRepository.findOne({
@@ -80,15 +80,17 @@ export class UsersService extends BaseService<User, UsersService> {
     })
   }
 
-  async createUser(user) {
-    const newUser = await this.userRepository.create(user);
-    return await this.userRepository.save(newUser);
-  }
+  
 
-  async updateUser(user) {
-    const newUser = await this.userRepository.create(user);
-    return await this.userRepository.save(newUser);
-  }
+  // async createUser(user) {
+  //   const newUser = await this.userRepository.create(user);
+  //   return await this.userRepository.save(newUser);
+  // }
+
+  // async updateUser(user) {
+  //   const newUser = await this.userRepository.create(user);
+  //   return await this.userRepository.save(newUser);
+  // }
 
   async updateUserRole(user) {
     // const roles = user.roles.map((item) => {
@@ -101,12 +103,12 @@ export class UsersService extends BaseService<User, UsersService> {
     })
     user.roles = roles;
 
-    const saveUser = await this.userRepository.save(user);
-    return saveUser;
+    await this.userRepository.save(user);
+    return {}
   }
 
-  async removeUser(id: string) {
-    return await this.userRepository.delete(id);
-  }
+  // async removeUser(id: string) {
+  //   return await this.userRepository.delete(id);
+  // }
 
 }

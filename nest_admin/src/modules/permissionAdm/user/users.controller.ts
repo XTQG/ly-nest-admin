@@ -4,20 +4,20 @@ import { PermissionMeta } from 'src/common/metaData/permissionMetaData.ts';
 import { userAdm, usersMeta } from 'src/common/metaData/permissionMetaData.ts/permissionAdm/usersAdm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { BaseController } from 'src/common/BaseController';
-import { userBaseMeta } from './meta';
+import { customUserMeta, userBaseMeta } from './meta';
 
-@PermissionMeta(userAdm.value)
+@PermissionMeta(userBaseMeta.value)
 @Controller(userBaseMeta.value)
 export class UsersController extends BaseController<CreateUserDto, UsersService> {
   constructor(private readonly userService: UsersService) {
-    super(userService,'user')
+    super(userService, userBaseMeta.value)
   }
 
-  @PermissionMeta(usersMeta.queryUser.value)
-  @Get("page")
-  queryUserPage(@Query() user) {
-    return this.userService.queryUser(user);
-  }
+  // @PermissionMeta(usersMeta.queryUser.value)
+  // @Get("page")
+  // queryUserPage(@Query() user) {
+  //   return this.userService.queryUser(user);
+  // }
 
   // @PermissionMeta(usersMeta.queryUser.value)
   // @Get("list")
@@ -25,16 +25,25 @@ export class UsersController extends BaseController<CreateUserDto, UsersService>
   //   return this.userService.queryUser(user);
   // }
 
+  @PermissionMeta(customUserMeta.menus.value)
   @Get("menus")
   findUserRoleMenus() {
     return this.userService.findUserRoleMenus();
   }
 
-  @PermissionMeta(usersMeta.saveUser.value)
-  @Post("save")
-  createUser(@Body() user: CreateUserDto) {
-    return this.userService.createUser(user);
+  @PermissionMeta(customUserMeta.list.value)
+  @Get("list")
+  async newList(@Query() query) {
+    const leftJoinAndSelect = { entity: "entity.roles", alias: "roles" };
+    const where = { account: this.userService.sqlLike(query.account) };
+    return this.userService.list({ ...query, leftJoinAndSelect, where });
   }
+
+  // @PermissionMeta(usersMeta.saveUser.value)
+  // @Post("save")
+  // createUser(@Body() user: CreateUserDto) {
+  //   return this.userService.createUser(user);
+  // }
 
   // @PermissionMeta(usersMeta.updateUser.value)
   // @Post("update")
@@ -42,7 +51,7 @@ export class UsersController extends BaseController<CreateUserDto, UsersService>
   //   return this.userService.updateUser(user);
   // }
 
-  @PermissionMeta(usersMeta.updateUserRole.value)
+  @PermissionMeta(customUserMeta.updateUserRole.value)
   @Post("update-user-role")
   updateUserRole(@Body() user) {
     return this.userService.updateUserRole(user);

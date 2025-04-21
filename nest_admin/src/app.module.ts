@@ -22,6 +22,8 @@ import { User } from './modules/permissionAdm/user/entities/user.entity';
 import { Role } from './modules/permissionAdm/roles/entities/role.entity';
 import { PermissionModule } from './modules/permissionAdm/permission/permission.module';
 import { CommonModule } from './modules/common/common.module';
+import { LoginLogsModule } from './modules/login-logs/login-logs.module';
+import { LoginLog } from './modules/login-logs/entities/login-log.entity';
 
 // 当前环境
 const NODE_DEV = process.env.NODE_ENV;
@@ -42,7 +44,7 @@ const NODE_DEV = process.env.NODE_ENV;
       useFactory: async (configService: ConfigService) => {
         return {
           type: 'mysql', // 数据库类型
-          entities: [Role, User, Menu, MenuMeta, Permission, Dictionary, DictionaryOptions],  // 数据表实体
+          entities: [Role, User, Menu, MenuMeta, Permission, Dictionary, DictionaryOptions,LoginLog],  // 数据表实体
           host: configService.get('DB_HOST', 'localhost'), // 主机，默认为localhost
           port: configService.get<number>('DB_PORT', 3306), // 端口号
           username: configService.get('DB_USER', 'root'),   // 用户名
@@ -60,7 +62,8 @@ const NODE_DEV = process.env.NODE_ENV;
     RolesModule,
     DictionaryModule,
     PermissionModule,
-    CommonModule
+    CommonModule,
+    LoginLogsModule,
   ],
   controllers: [AppController],
   providers: [AppService,],

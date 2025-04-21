@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { LoginLogsService } from './login-logs.service';
-import { CreateLoginLogDto } from './dto/create-login-log.dto';
-import { UpdateLoginLogDto } from './dto/update-login-log.dto';
+import { BaseController } from 'src/common/BaseController';
+import { loginLogBaseMeta } from './meta';
 
-@Controller('login-logs')
-export class LoginLogsController {
-  constructor(private readonly loginLogsService: LoginLogsService) {}
+@Controller(loginLogBaseMeta.value)
+export class LoginLogsController extends BaseController<any, LoginLogsService> {
+  constructor(private readonly loginLogsService: LoginLogsService) {
+    super(loginLogsService, loginLogBaseMeta.value)
+  }
 
-  
+
 }

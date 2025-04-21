@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from 'src/common/decorator/publicDecorator';
 
@@ -9,8 +9,8 @@ export class AuthController {
   @Public()
   // 登录
   @Post("login")
-  async login(@Body() user) {
-    return this.authService.login(user);
+  async login(@Body() user,@Req() req) {
+    return this.authService.login(user,req);
   }
 
   @Public()

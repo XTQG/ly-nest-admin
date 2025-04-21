@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { CreateLoginLogDto } from './dto/create-login-log.dto';
-import { UpdateLoginLogDto } from './dto/update-login-log.dto';
+import { BaseService } from 'src/common/BaseService';
+import { LoginLog } from './entities/login-log.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { getBrowser, getSystem } from 'src/common/utils/comon';
 
 @Injectable()
-export class LoginLogsService {
-  create(createLoginLogDto: CreateLoginLogDto) {
-    return 'This action adds a new loginLog';
+export class LoginLogsService extends BaseService<LoginLog, LoginLogsService> {
+
+  constructor(
+    @InjectRepository(LoginLog)
+    private readonly loginLogRepository: Repository<LoginLog>
+  ) {
+    super(loginLogRepository)
   }
 
-  findAll() {
-    return `This action returns all loginLogs`;
+  async createLogs(req, dto) {
+    const loginLog: any = {
+      // account: dto.account,
+      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+      // address: dto.address,
+      browser: getBrowser(req.headers['user-agent']),
+      os: getSystem(req.headers['user-agent']),
+      // isSuccess: dto.isSuccess,
+      // msg: dto.msg,
+      ...dto
+    }
+
+    if (['::1'].includes(loginLog.ip)) {
+      loginLog.address = '本地'
+    }
+    // console.log(loginLog);
+
+    return await this.add({ ...loginLog })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} loginLog`;
-  }
 
-  update(id: number, updateLoginLogDto: UpdateLoginLogDto) {
-    return `This action updates a #${id} loginLog`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} loginLog`;
-  }
 }

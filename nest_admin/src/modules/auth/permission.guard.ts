@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, ForbiddenException, Inject, Injectable, UnauthorizedException, Controller } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { ClsService } from 'nestjs-cls';
@@ -22,17 +22,25 @@ export class PermissionGuard implements CanActivate {
     context: ExecutionContext,
   ): Promise<boolean> {
     // 获取接口权限元数据
-    const perMeta = this.reflector.getAllAndOverride<boolean>(PER_META_KEY, [
+    const AllPerMeta = this.reflector.getAllAndOverride<boolean>(PER_META_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
 
+    const controllerMeta = this.reflector.get(PER_META_KEY, context.getClass())
+    const methodMeta = this.reflector.get(PER_META_KEY, context.getHandler())
+
+    const perMeta = controllerMeta + "_" + methodMeta
+
+    // console.log(controllerMeta, methodMeta, AllPerMeta);
+
+
     // 如果该接口没有设置元数据，那么就跳过权限校验，直接放行
-    if (perMeta === undefined) {
+    if (AllPerMeta === undefined) {
       return true
     }
 
-    return true
+    // return true
 
     // console.log(perMeta);
 
@@ -48,11 +56,11 @@ export class PermissionGuard implements CanActivate {
     userPermission.roles.forEach((role) => {
       permission = permission.concat(role.permission)
     })
+
     // console.log(permission);
     const hasPermission = permission.some((item) => {
       return item.value === perMeta
     })
-    // console.log(hasPermission);
 
     if (!hasPermission) {
       throw new ForbiddenException('您没有访问该接口权限')
