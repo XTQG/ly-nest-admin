@@ -80,23 +80,31 @@ export class BaseService<T, K> {
     query: QueryListDto = {},
     cb?,
   ): Promise<ResponseListDto<T>> {
-    let { currentPage = 1, pageSize = 10, where = {}, leftJoinAndSelect = null } = query
+    let { currentPage = 1, pageSize = 10, where = {}, andWhere = null, leftJoinAndSelect = null } = query
 
     // 计算 skip 和 take
     const skip = (currentPage - 1) * pageSize;
     const take = pageSize;
 
-    let queryBuilder = await this.repository.createQueryBuilder("entity").andWhere({ ...where, isDeleted: 0 })
+    let queryBuilder = await this.repository.createQueryBuilder("entity").where({ ...where, isDeleted: 0 })
 
     if (leftJoinAndSelect) {
       if (Array.isArray(leftJoinAndSelect)) {
         for (const item of leftJoinAndSelect) {
-          this.leftJoinAndSelectFn(item, queryBuilder)
+          await this.leftJoinAndSelectFn(item, queryBuilder)
         }
       } else {
-        this.leftJoinAndSelectFn(leftJoinAndSelect, queryBuilder)
+        await this.leftJoinAndSelectFn(leftJoinAndSelect, queryBuilder)
+      }
+
+      if (andWhere) {
+        for (const item of andWhere) {
+          await queryBuilder.andWhere(item[0], item[1])
+        }
       }
     }
+
+    // await queryBuilder.andWhere({ ...where, isDeleted: 0 })
 
     const [data, total] = await queryBuilder.skip(skip).take(take).getManyAndCount()
     // console.log(data);

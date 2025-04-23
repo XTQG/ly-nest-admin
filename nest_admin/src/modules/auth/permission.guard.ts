@@ -34,26 +34,27 @@ export class PermissionGuard implements CanActivate {
 
     // console.log(controllerMeta, methodMeta, AllPerMeta);
 
-
     // 如果该接口没有设置元数据，那么就跳过权限校验，直接放行
     if (AllPerMeta === undefined) {
       return true
     }
 
+    // 关闭接口权限校验
     // return true
 
     // console.log(perMeta);
 
     const userId = this.clsService.get('userId')
 
-    const userPermission = await this.userService.findUserPermissions(userId)
+    const rolePermission = await this.userService.findUserRolePermissions(userId)
+    // console.log(permission);
 
-    if (!userPermission) {
+    if (!rolePermission) {
       throw new ForbiddenException('用户不存在,请重新登录')
     }
 
     let permission = []
-    userPermission.roles.forEach((role) => {
+    rolePermission.forEach((role) => {
       permission = permission.concat(role.permission)
     })
 
@@ -61,6 +62,7 @@ export class PermissionGuard implements CanActivate {
     const hasPermission = permission.some((item) => {
       return item.value === perMeta
     })
+    // console.log(hasPermission, perMeta);
 
     if (!hasPermission) {
       throw new ForbiddenException('您没有访问该接口权限')

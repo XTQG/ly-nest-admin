@@ -27,12 +27,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
-
     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
       console.error(exception);
       msg = "服务器异常"
     }
-
+    
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),

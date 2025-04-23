@@ -24,6 +24,7 @@ import { PermissionModule } from './modules/permissionAdm/permission/permission.
 import { CommonModule } from './modules/common/common.module';
 import { LoginLogsModule } from './modules/login-logs/login-logs.module';
 import { LoginLog } from './modules/login-logs/entities/login-log.entity';
+import { CacheModule } from './modules/cache/cache.module';
 
 // 当前环境
 const NODE_DEV = process.env.NODE_ENV;
@@ -64,9 +65,12 @@ const NODE_DEV = process.env.NODE_ENV;
     PermissionModule,
     CommonModule,
     LoginLogsModule,
+    CacheModule
   ],
   controllers: [AppController],
   providers: [AppService,],
 })
 
-export class AppModule { }
+export class AppModule {
+  
+}

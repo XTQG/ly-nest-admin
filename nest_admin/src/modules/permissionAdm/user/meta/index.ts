@@ -17,6 +17,10 @@ export const customUserMeta = {
   list: {
     label: "分页列表",
     value: "list"
+  },
+  permission:{
+    label: "权限",
+    value: "permission"
   }
 }
 

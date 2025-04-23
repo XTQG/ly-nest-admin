@@ -72,8 +72,9 @@ export class BaseController<T, K> {
   @PermissionMeta('removeBatch')
   @Post('remove-batch')
   async postRemove(@Body('ids') ids: string) {
-    if (!ids || !Array.isArray(ids) || ids.length === 0) {
-      throw new HttpException('ids 参数不能为空且必须是数组', 400);
+    // ids 参数不能为空且必须是数组
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {      
+      throw new HttpException({ message: 'ids 参数不能为空且必须是数组' }, 400);
     }
     const userId = this.clsService.get('userId')
     return this.service.remove(ids, userId)

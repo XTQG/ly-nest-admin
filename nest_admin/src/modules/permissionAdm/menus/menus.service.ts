@@ -6,6 +6,8 @@ import { Repository } from 'typeorm';
 import { UpdateMenuDto } from './dto/update-menu.dto';
 import { MenuMeta } from './entities/menu-meta.entity';
 import { builderTree } from 'src/common/utils/comon';
+import { CacheService } from 'src/modules/cache/cache.service';
+import { Role } from '../roles/entities/role.entity';
 @Injectable()
 export class MenusService {
   constructor(
@@ -13,13 +15,34 @@ export class MenusService {
     private readonly menuRep: Repository<Menu>,
     @InjectRepository(MenuMeta)
     private readonly menuMetaRep: Repository<MenuMeta>,
+    @InjectRepository(Role)
+    private readonly roleRep: Repository<Role>,
+    private redisService: CacheService,
   ) { }
 
-  
+  async initRoles() {
+    const roles = await this.roleRep.find({
+      relations: ["menus", "permission"]
+    });
+    for (const role of roles) {
+      await this.redisService.set('role_' + role.id, JSON.stringify(role));
+    }
+    // console.log(roles);
+  }
+
   async findAll() {
     try {
+
+      const isExistMenu = await this.redisService.get('menuList')
+      if (isExistMenu) {
+        return JSON.parse(isExistMenu)
+      }
+
       const menuList = await this.menuRep.find()
       // console.log(menuList);
+
+      await this.redisService.set('menuList', JSON.stringify(menuList))
+
       return menuList
     } catch (error) {
       console.log(error);
@@ -112,6 +135,8 @@ export class MenusService {
   // 新增菜单
   async createMenu(menuData: CreateMenuDto) {
 
+    this.redisService.del("menuList")
+
     if (menuData.parentId == "") {
       throw new BadRequestException({
         message: "父级菜单不能为空字符串",
@@ -127,9 +152,11 @@ export class MenusService {
     // console.log(newMenu);
 
     const saveMenu = await this.menuRep.save(newMenu);
+
+    this.initRoles()
+
     return saveMenu
   }
-
 
 
   // 查找某个菜单的权限列表
@@ -167,6 +194,7 @@ export class MenusService {
     const newUpdateMenu = this.menuRep.create(newMenu)
     const updateMenu = await this.menuRep.save(newUpdateMenu)
     // console.log(updateMenu);
+    this.initRoles()
 
     return {}
   }
@@ -188,6 +216,8 @@ export class MenusService {
     }
     await this.menuRep.remove(menu)
     await this.menuMetaRep.remove(menu.meta)
+    this.initRoles()
+
     return {}
   }
 }

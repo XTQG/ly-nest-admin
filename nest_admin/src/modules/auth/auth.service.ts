@@ -6,6 +6,7 @@ import { ClsService } from 'nestjs-cls';
 import { UsersService } from '../permissionAdm/user/users.service';
 import { CaptchaService } from '../common/captcha.service';
 import { LoginLogsService } from '../login-logs/login-logs.service';
+import { CacheService } from '../cache/cache.service';
 @Injectable()
 export class AuthService {
   constructor(
@@ -14,6 +15,7 @@ export class AuthService {
     private readonly clsService: ClsService,
     private readonly captchaService: CaptchaService,
     private readonly loginLogsService: LoginLogsService,
+    private redisService: CacheService,
   ) { }
 
   // 生成token
@@ -58,6 +60,7 @@ export class AuthService {
       }
 
       existUser = await this.usersService.findOne(user.username);
+
       // 判断用户是否存在
       if (!existUser) {
         // throw new BadRequestException({
@@ -94,6 +97,14 @@ export class AuthService {
       isSuccess: 1,
       msg: "登录成功"
     }
+
+    // console.log(existUser);
+
+    const userRoles = existUser.roles.map((item) => item.id)
+    // console.log(existUser);
+
+    this.redisService.set(`userId_${existUser.id}`, JSON.stringify(userRoles), 60 * 60 * 24 * 7)
+
     await this.loginLogsService.createLogs(req, log)
 
     const towToken = await this.generateToken(existUser.id)

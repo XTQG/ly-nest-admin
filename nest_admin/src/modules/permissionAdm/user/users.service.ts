@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Like, Repository } from 'typeorm';
 // import { Role } from '../roles/entities/role.entity';
 import { ClsService } from 'nestjs-cls';
 import { BaseService } from 'src/common/BaseService';
+import { CacheService } from 'src/modules/cache/cache.service';
 
 @Injectable()
 export class UsersService extends BaseService<User, UsersService> {
@@ -12,8 +13,9 @@ export class UsersService extends BaseService<User, UsersService> {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly clsService: ClsService
-  ) { 
+    private readonly clsService: ClsService,
+    private redisService: CacheService,
+  ) {
     super(userRepository)
   }
 
@@ -52,6 +54,36 @@ export class UsersService extends BaseService<User, UsersService> {
   // 获取用户菜单
   async findUserRoleMenus() {
     const userId = this.clsService.get('userId');
+    const menuMap = new Map()
+
+    const isExistUserRoles = await this.redisService.get('userRole_' + userId)
+    if (isExistUserRoles) {
+      const userRoles = JSON.parse(isExistUserRoles)
+      const roles = []
+      let hasRole = true
+      for (const role of userRoles) {
+        const isExistRole = await this.redisService.get('role_' + role)
+        if (isExistRole) {
+          roles.push(JSON.parse(isExistRole))
+        } else {
+          hasRole = false
+          break
+        }
+      }
+      if (hasRole) {
+        // const menuMap = new Map()
+        // 去重
+        roles.forEach((role) => {
+          role.menus.forEach((menu) => {
+            menuMap.set(menu.id, menu)
+          })
+        })
+        // 转化成数组
+        const userMenu = Array.from(menuMap.values())
+        return userMenu
+      }
+    }
+
     const userAndMenu = await this.userRepository.findOne({
       where: {
         id: userId
@@ -59,7 +91,6 @@ export class UsersService extends BaseService<User, UsersService> {
       relations: ['roles.menus.meta'],
     })
 
-    const menuMap = new Map()
     // 去重
     userAndMenu.roles.forEach((role) => {
       role.menus.forEach((menu) => {
@@ -67,20 +98,53 @@ export class UsersService extends BaseService<User, UsersService> {
       })
     })
     // 转化成数组
-    return Array.from(menuMap.values())
+    const userMenu = Array.from(menuMap.values())
+    this.redisService.set('userRole_' + userId, JSON.stringify(userMenu))
+    return userMenu
   }
 
   // 获取用户权限
-  findUserPermissions(userId: string) {
-    return this.userRepository.findOne({
+  async findUserRolePermissions(userId: string) {
+
+    if (!userId) {
+      userId = this.clsService.get('userId');
+    }
+
+    const isExistUser = await this.redisService.get('userId_' + userId)
+
+    if (isExistUser) {
+      const userRoles = JSON.parse(isExistUser)
+      let roles = []
+      const newMap = new Map()
+      let hasRole = true
+      for (const role of userRoles) {
+        const isExistRole = await this.redisService.get('role_' + role.id)
+        if (isExistRole) {
+          roles = roles.concat(JSON.parse(isExistRole))
+        } else {
+          hasRole = false
+          break
+        }
+      }
+      if (hasRole) {
+        return roles
+      }
+    }
+    const user = await this.userRepository.findOne({
       where: {
         id: userId
       },
       relations: ['roles.permission']
     })
+
+    if (!user) {
+      throw new ForbiddenException('用户不存在,请重新登录')
+    }
+    user.roles
+    return user.roles
   }
 
-  
+
 
   // async createUser(user) {
   //   const newUser = await this.userRepository.create(user);

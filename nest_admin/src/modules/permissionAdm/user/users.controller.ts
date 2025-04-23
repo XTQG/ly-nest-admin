@@ -5,6 +5,7 @@ import { userAdm, usersMeta } from 'src/common/metaData/permissionMetaData.ts/pe
 import { CreateUserDto } from './dto/create-user.dto';
 import { BaseController } from 'src/common/BaseController';
 import { customUserMeta, userBaseMeta } from './meta';
+import { In } from 'typeorm';
 
 @PermissionMeta(userBaseMeta.value)
 @Controller(userBaseMeta.value)
@@ -34,9 +35,12 @@ export class UsersController extends BaseController<CreateUserDto, UsersService>
   @PermissionMeta(customUserMeta.list.value)
   @Get("list")
   async newList(@Query() query) {
+    const { account, roleId } = query;
     const leftJoinAndSelect = { entity: "entity.roles", alias: "roles" };
-    const where = { account: this.userService.sqlLike(query.account) };
-    return this.userService.list({ ...query, leftJoinAndSelect, where });
+    const where = { account: this.userService.sqlLike(account) };
+    // console.log(roleId);
+    const andWhere = roleId ? [["roles.id IN (:roleId)", { roleId: roleId }]] : null;
+    return this.userService.list({ ...query, leftJoinAndSelect, where, andWhere });
   }
 
   // @PermissionMeta(usersMeta.saveUser.value)
@@ -55,6 +59,12 @@ export class UsersController extends BaseController<CreateUserDto, UsersService>
   @Post("update-user-role")
   updateUserRole(@Body() user) {
     return this.userService.updateUserRole(user);
+  }
+
+  @PermissionMeta(customUserMeta.permission.value)
+  @Get("role_permission")
+  queryUser() {
+    return this.userService.findUserRolePermissions(null);
   }
 
   // @PermissionMeta(usersMeta.removeUser.value)

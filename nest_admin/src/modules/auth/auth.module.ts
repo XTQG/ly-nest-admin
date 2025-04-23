@@ -13,6 +13,7 @@ import { User } from '../permissionAdm/user/entities/user.entity';
 import { PermissionGuard } from './permission.guard';
 import { CommonModule } from '../common/common.module';
 import { LoginLogsModule } from '../login-logs/login-logs.module';
+import { CacheModule } from '../cache/cache.module';
 
 const jwtModule = JwtModule.registerAsync({
   inject: [ConfigService],
@@ -33,7 +34,8 @@ const jwtModule = JwtModule.registerAsync({
     MenusModule,
     ClsModule,
     CommonModule,
-    LoginLogsModule
+    LoginLogsModule,
+    CacheModule
   ],
   controllers: [AuthController],
   providers: [
