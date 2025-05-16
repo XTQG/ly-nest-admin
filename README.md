@@ -17,9 +17,9 @@ authority-server是一个使用NestJS框架构建的后台管理的开源项目�
 
 2. 配置数据库
 
-2.1 创建数据库
-2.2 执行文件 `doc/数据库基础数据.md` 的基础数据sql命令
-2.3 修改app.modules.ts和nest_admin下config的env文件的数据库配置
+    1. 创建数据库
+    2. 执行文件 `doc/数据库基础数据.md` 的基础数据sql命令
+    3. 修改app.modules.ts和nest_admin下config的env文件的数据库配置
 
 3. 运行
 
