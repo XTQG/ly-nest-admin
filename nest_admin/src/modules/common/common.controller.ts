@@ -1,9 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, UploadedFile } from '@nestjs/common';
 import { CommonService } from './common.service';
-import { CreateCommonDto } from './dto/create-common.dto';
-import { UpdateCommonDto } from './dto/update-common.dto';
 import { Public } from 'src/common/decorator/publicDecorator';
 import { CaptchaService } from './captcha.service';
+import { MulterFileInterceptor } from 'src/common/intercept/file.interceptor';
 
 @Controller('common')
 export class CommonController {
@@ -13,15 +12,20 @@ export class CommonController {
   ) { }
 
   @Public()
+  @Post('upload')
+  @MulterFileInterceptor({})
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
+    return { url: file.filename }
+  }
+
+  // 获取验证码图片
+  @Public()
   @Get('getCaptchaImage')
   getCaptchaImage() {
     return this.captchaService.getCaptchaImage();
   }
 
-  @Post()
-  create(@Body() createCommonDto: CreateCommonDto) {
-    return this.commonService.create(createCommonDto);
-  }
 
 
 }

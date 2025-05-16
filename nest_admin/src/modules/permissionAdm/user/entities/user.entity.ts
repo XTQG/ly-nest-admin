@@ -7,6 +7,13 @@ import { Role } from "../../roles/entities/role.entity";
 export class User extends BaseEntity {
 
   @Column({
+    comment: '头像',
+    // length: 20,
+    nullable: true,
+  })
+  avatar: string
+
+  @Column({
     unique: true,
     comment: '账号',
     length: 20,

@@ -38,7 +38,9 @@ export class MenusService {
         return JSON.parse(isExistMenu)
       }
 
-      const menuList = await this.menuRep.find()
+      const menuList = await this.menuRep.find({
+        order: { sort: 'ASC' }
+      })
       // console.log(menuList);
 
       await this.redisService.set('menuList', JSON.stringify(menuList))
@@ -80,7 +82,7 @@ export class MenusService {
       const { title = '', isAllMenus = false } = menuReq
       const menuList = await this.menuRep.createQueryBuilder("menu")
         .leftJoinAndSelect("menu.meta", "meta")
-        .where("meta.title LIKE :title", { title: `%${title}%` }).getMany()
+        .where("meta.title LIKE :title", { title: `%${title}%` }).orderBy("menu.sort", "ASC").getMany()
       let allMenus = null
       // 查找所有菜单
       if (isAllMenus) {

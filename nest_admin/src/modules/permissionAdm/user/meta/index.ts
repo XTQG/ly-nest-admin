@@ -14,6 +14,10 @@ export const customUserMeta = {
     label: "设置角色",
     value: "updateRole"
   },
+  update: {
+    label: "更新",
+    value: "update"
+  },
   list: {
     label: "分页列表",
     value: "list"

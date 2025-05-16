@@ -10,7 +10,7 @@ export class BaseService<T, K> {
   }
 
   @Inject(ClsService)
-  private readonly clsService1: ClsService
+  clsService: ClsService
 
   newData(data) {
     return this.repository.create(data)
@@ -22,13 +22,13 @@ export class BaseService<T, K> {
       if (!dto.updateUser) {
         delete dto.createUser
         delete dto.createTime
-        dto.updateUser = this.clsService1.get('userId')
+        dto.updateUser = this.clsService.get('userId')
       }
     } else {
       if (!dto.createUser) {
         delete dto.updateUser
         delete dto.updateTime
-        const userId = this.clsService1.get('userId')
+        const userId = this.clsService.get('userId')
         dto.createUser = userId
       }
     }
@@ -41,7 +41,7 @@ export class BaseService<T, K> {
     delete dto.id
     if (!dto.createUser) {
       delete dto.updateUser
-      const userId = this.clsService1.get('userId')
+      const userId = this.clsService.get('userId')
       dto.createUser = userId
     }
     const newData = this.repository.create(dto)
@@ -53,7 +53,7 @@ export class BaseService<T, K> {
     if (!dto.id) throw new HttpException({ message: '数据不存在' }, 400);
     if (!userId) {
       delete dto.createUser
-      const userId1 = this.clsService1.get('userId')
+      const userId1 = this.clsService.get('userId')
       dto.updateUser = userId1
     }
     const data = this.repository.create(dto)
@@ -141,8 +141,9 @@ export class BaseService<T, K> {
     }
   }
 
+
   // 单条查询统一公用接口，禁止子类重写
-  async sqlOne(query): Promise<any | null> {
+  async queryOne(query): Promise<any | null> {
     if (!query) return null
     let isEmpty = true
 

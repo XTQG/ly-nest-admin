@@ -19,6 +19,7 @@ export class JwtAuthGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     // 用来过滤白名单，被@Public装饰器修饰的控制器直接跳过不做验证
     const isPublic = this.reflector.get(IS_PUBLIC_KEY, context.getHandler());
+
     if (isPublic) {
       return true;
     }
@@ -35,6 +36,7 @@ export class JwtAuthGuard implements CanActivate {
 
     try {
       const info = this.jwtService.verify(token);
+
       // 设置用户ID到cls中
       this.clsService.set('userId', info.id);
 

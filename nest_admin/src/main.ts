@@ -7,6 +7,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { HttpExceptionFilter } from './common/filter/httpException.filter';
 import { ResponseInterceptor } from './common/intercept/response.interceptor';
 import { ValidationPipe } from '@nestjs/common';
+import { join } from 'path';
 
 const corsOptions: CorsOptions = {
   origin: 'http://localhost:3000', // 允许的源
@@ -29,6 +30,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
+  // 配置静态资源访问
+  app.useStaticAssets(join(__dirname, "../upload"), {
+    prefix: "/files"
+  })
+
   // 全局异常过滤器
   app.useGlobalFilters(new HttpExceptionFilter());
 
@@ -41,6 +47,8 @@ async function bootstrap() {
     // whitelist: true, // 忽略 DTO 中未定义的属性
     // forbidNonWhitelisted: true, // 禁止未定义的属性
   }));
+
+
 
   // app.setGlobalPrefix('api'); // 设置全局路由前缀
 

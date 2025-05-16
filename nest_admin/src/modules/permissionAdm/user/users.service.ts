@@ -13,7 +13,6 @@ export class UsersService extends BaseService<User, UsersService> {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly clsService: ClsService,
     private redisService: CacheService,
   ) {
     super(userRepository)
@@ -54,6 +53,7 @@ export class UsersService extends BaseService<User, UsersService> {
   // 获取用户菜单
   async findUserRoleMenus() {
     const userId = this.clsService.get('userId');
+    
     const menuMap = new Map()
 
     const isExistUserRoles = await this.redisService.get('userRole_' + userId)
@@ -89,6 +89,13 @@ export class UsersService extends BaseService<User, UsersService> {
         id: userId
       },
       relations: ['roles.menus.meta'],
+      order: {
+        roles: {
+          menus: {
+            sort: 'ASC'
+          }
+        }
+      }
     })
 
     // 去重
@@ -103,11 +110,11 @@ export class UsersService extends BaseService<User, UsersService> {
     return userMenu
   }
 
-  // 获取用户权限
+  // 获取用户角色权限
   async findUserRolePermissions(userId: string) {
 
     if (!userId) {
-      userId = this.clsService.get('userId');
+      throw new ForbiddenException('用户不存在,请重新登录')
     }
 
     const isExistUser = await this.redisService.get('userId_' + userId)

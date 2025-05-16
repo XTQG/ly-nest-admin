@@ -14,7 +14,7 @@ export class BaseController<T, K> {
   }
 
   @Inject(ClsService)
-  private readonly clsService: ClsService
+  clsService: ClsService
 
   // 新增或者更新
   @PermissionMeta('save')

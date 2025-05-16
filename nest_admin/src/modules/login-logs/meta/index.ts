@@ -6,11 +6,14 @@ export const loginLogBaseMeta = {
 }
 
 export const customLoginLogMeta = {
-
+  list: {
+    label: "列表",
+    value: "list",
+  },
 }
 
 const children = [
-  ...generateBaseMeta(loginLogBaseMeta, Object.values(customLoginLogMeta)),
+  // ...generateBaseMeta(loginLogBaseMeta, Object.values(customLoginLogMeta)),
   ...generateBaseMeta(loginLogBaseMeta)
 ]
 
@@ -18,5 +21,6 @@ export const loginLogMeta = {
   label: loginLogBaseMeta.label,
   value: loginLogBaseMeta.value,
   // children: Object.values(usersMeta)
-  children: mergeMeta(children)
+  // children: mergeMeta(children)
+  children: children
 }
